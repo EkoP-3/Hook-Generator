@@ -49,6 +49,22 @@ Bilgi tabanı: `bilgi/hook_stratejileri.md` (kurallar, 21 formül, §9 puanlama,
 - **Hiçbir şeyi kendiliğinden değiştirme.** Kullanıcı önerileri tek tek onaylar.
 - Onaylananları uygula, `bilgi/surumler.md`'ye yaz, sürüm numarasını artır, commit et.
 
+## Çalışma skilleri
+
+`.claude/skills/` altında Superpowers ve Ponytail skilleri var (kaynak ve lisans: `.claude/skills/KAYNAK.md`). Geliştirme işlerinde aktif kullan:
+
+- Yeni özellik ya da davranış değişikliği → `brainstorming`, sonra `writing-plans`. Tasarım ve planlar `docs/superpowers/specs/` ve `docs/superpowers/plans/` altına.
+- Kod yazarken → `test-driven-development` (önce başarısız test) + `ponytail` (en az kod: önce mevcut kod, sonra standart kütüphane; yeni bağımlılık yok).
+- Hata, beklenmeyen davranış → `systematic-debugging` (kök neden bulunmadan düzeltme yok).
+- "Bitti", "geçti", "çalışıyor" demeden önce → `verification-before-completion` (komutu çalıştır, çıktıyı oku, sonra söyle).
+- Büyük bir iş bitince → `requesting-code-review` ya da `ponytail-review`.
+- Birbirinden bağımsız 2+ iş → `dispatching-parallel-agents`.
+
+Bu dosyadaki kurallar skillerden önce gelir:
+- Kullanıcıyla Türkçe, sade konuş; skillerin süreç terimlerini kullanıcıya taşıma.
+- Kanca üretimi (`kanca:`, `sonuç:` vb.) bir geliştirme işi değildir; bu skiller gerekmez.
+- Prototip (`prototip/`) atılabilir deneme sayılır. TDD zorunlu değil ama puanlama eşlik kontrolü her zaman çalışır.
+
 ## Değişmez kurallar
 
 - **Sayı uydurma.** Sayı, "en …" veya kesin iddia içeren her cümle onaylı bilgiden gelir. Yoksa **"doğrulanmadı"** diye işaretle (§14.8).
