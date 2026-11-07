@@ -106,9 +106,9 @@ CSV'yi elle düzenleme, `arac/veri.py` üzerinden yaz.
 - [ ] **Aşama 0 — Kurulum**
   - [x] CLAUDE.md, bilgi tabanı depoda
   - [x] vidIQ bağlı (aylık 150 kredi, yalnızca niş analizinde döküm için)
-  - [ ] `bilgi/formuller.json` (öncelik dahil), `sozluk_tr.json`, `sozluk_en.json`
-  - [ ] `arac/puanla.py` + testler (§11: her "iyi" kanca "kötü" karşılığından yüksek puan almalı)
-  - [ ] `arac/veri.py`, boş `veri/` dosyaları, `bilgi/surumler.md` (v0.1 = bilgi tabanının ilk hali)
+  - [x] `bilgi/formuller.json` (öncelik dahil), `sozluk_tr.json`, `sozluk_en.json`
+  - [x] `arac/puanla.py` + testler (§11: her "iyi" kanca "kötü" karşılığından yüksek puan almalı)
+  - [x] `arac/veri.py`, boş `veri/` dosyaları, `bilgi/surumler.md` (v0.1 = bilgi tabanının ilk hali)
   - [ ] §15'teki 11 videonun kancaları ve formül etiketleri (kullanıcı onaylar; sonuçları kullanıcı verince eklenir)
   - [ ] Uçtan uca deneme: `kanca: kurt vs husky`
 - [ ] **Aşama 1 — Kullanım (4–6 hafta):** haftada 2–3 video, sonuçlar kullanıcıdan toplu. İlk `niş analizi`.

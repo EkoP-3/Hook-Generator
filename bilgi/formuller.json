@@ -1,0 +1,35 @@
+{
+  "surum": "v0.1",
+  "aciklama": "Kanca formülleri (hook_stratejileri.md §6) ve çelişki türleri (§3). 'oncelik' 1 = önce dene, 3 = nişe az uyuyor. Bu dosya yalnızca onaylı sürümle değişir (bkz. bilgi/surumler.md).",
+  "formuller": [
+    {"kod": "KARSILASTIRMA", "ad": "Karşılaştırma", "kalip": "A ↔ B", "oncelik": 1, "tr": "Jaguar mı leopar mı? Farkı beneklerde.", "en": "Jaguar or leopard? The spots tell you.", "bozulur": "İki taraf da sıkıcıysa"},
+    {"kod": "TERS", "ad": "Tersine çevirme", "kalip": "Herkes X der, gerçek Y", "oncelik": 1, "tr": "Herkes kral aslan der. Asıl tehlike su aygırı.", "en": "Everyone says the lion's king. It's not.", "bozulur": "Y zayıfsa"},
+    {"kod": "IMKANSIZ", "ad": "İmkânsız iddia", "kalip": "Akıl almaz ama doğru", "oncelik": 1, "tr": "Bu dev aslında yüzme bilmiyor.", "en": "This giant can't even swim.", "bozulur": "Doğru değilse (asla uydurma)"},
+    {"kod": "HITAP", "ad": "Doğrudan hitap", "kalip": "Eğer sen …san", "oncelik": 1, "tr": "Kedin varsa, bunu bilmen lazım.", "en": "If you own a cat, you need to know this.", "bozulur": "Hitap edilen kitle dar değilse"},
+    {"kod": "ENLER", "ad": "En'ler", "kalip": "En hızlı, en büyük, en tehlikeli", "oncelik": 2, "tr": "Afrika'nın asıl tehlikeli devi aslan değil.", "en": "Africa's deadliest giant isn't the lion.", "bozulur": "Doğrulanamazsa"},
+    {"kod": "ISTATISTIK", "ad": "İstatistik", "kalip": "Şaşırtıcı sayı + ne anlama geliyor", "oncelik": 2, "tr": "Su aygırının ısırığı aslanınkinin neredeyse üç katı.", "en": "A hippo bites almost 3x harder than a lion.", "bozulur": "Sayı uydurmaysa veya yuvarlak ve sıradansa"},
+    {"kod": "SORU", "ad": "Soru", "kalip": "Merak sorusu", "oncelik": 2, "tr": "Bir ayıdan mı kaçarsın, kurttan mı?", "en": "Could you outrun a bear or a wolf?", "bozulur": "Soru evet/hayır ile bitip gidiyorsa"},
+    {"kod": "IFSA", "ad": "İfşa", "kalip": "Sana göstereceğim…", "oncelik": 2, "tr": "Bu ikisini ayırmanın tek yolu kuyrukta.", "en": "There's one tell, and it's the tail.", "bozulur": "Gösterilen şey zaten biliniyorsa"},
+    {"kod": "UYARI", "ad": "Uyarı", "kalip": "Şunu yapmadan önce…", "oncelik": 2, "tr": "Bir kurt görürsen sakın arkanı dönme.", "en": "If you see a wolf, never turn your back.", "bozulur": "Uyarı abartılıysa"},
+    {"kod": "HATA", "ad": "Hata", "kalip": "İzleyicinin yaptığı yanlış", "oncelik": 2, "tr": "Ayıdan koşarak kaçmaya çalışıyorsan hata yapıyorsun.", "en": "If you'd run from a bear, you've already lost.", "bozulur": "Hata gerçek değilse"},
+    {"kod": "LISTE", "ad": "Liste", "kalip": "X şey (en fazla 3)", "oncelik": 2, "tr": "Kedinin sana asla söylemeyeceği 3 sır.", "en": "3 things your cat will never tell you.", "bozulur": "Liste uzunsa"},
+    {"kod": "ICERIDEN", "ad": "İçeriden bilgi", "kalip": "Kimsenin bilmediği…", "oncelik": 2, "tr": "Bunu hayvanat bahçesi bakıcıları bile bilmiyor.", "en": "Even zookeepers don't know this.", "bozulur": "Bilgi yaygınsa"},
+    {"kod": "ONCE_SONRA", "ad": "Önce / sonra", "kalip": "Aynı şeyin iki hali", "oncelik": 2, "tr": "Bu yavru pembe değil. Ama 2 yıl sonra öyle olacak.", "en": "Born grey. Turns pink.", "bozulur": "Görsel yoksa"},
+    {"kod": "KOKEN", "ad": "Köken", "kalip": "Her şey şununla başladı", "oncelik": 2, "tr": "Bütün köpekler aslında bir kurttan geliyor.", "en": "Every dog started as a wolf.", "bozulur": "Hikâye uzunsa"},
+    {"kod": "BASKASI", "ad": "Başkasının sonucu", "kalip": "Başkasına olan şaşırtıcı şey", "oncelik": 2, "tr": "Bu kobra onu ısırdı. 10 dakika sonra uyanıp kobrayı yedi.", "en": "The cobra bit it. Ten minutes later it woke up and ate the cobra.", "bozulur": "Kaynak belirsizse"},
+    {"kod": "KANIT", "ad": "Kanıt", "kalip": "İşte kayıt", "oncelik": 2, "tr": "Bu görüntü, orkanın beyaz köpekbalığını avladığı an.", "en": "This is the moment an orca hunts a great white.", "bozulur": "Görüntü kanıtlamıyorsa"},
+    {"kod": "SAAT", "ad": "Saat", "kalip": "X saniyede öğreneceksin", "oncelik": 2, "tr": "20 saniyede ikisini ayırmayı öğreneceksin.", "en": "In 20 seconds you'll never mix these up again.", "bozulur": "Videoda vaat tutulmazsa"},
+    {"kod": "DENEDIM", "ad": "Denedim", "kalip": "Deney sonucu", "oncelik": 3, "tr": "", "en": "I watched 100 hours of orca footage. Here's what scares sharks.", "bozulur": "Deney yoksa (yüzsüz kanalda zor)"},
+    {"kod": "SOKUM", "ad": "Söküm", "kalip": "Kalıbı parçalara ayır", "oncelik": 3, "tr": "", "en": "I broke down the 10 most-viewed animal Shorts.", "bozulur": "Nişe uymuyorsa"},
+    {"kod": "YIGIN", "ad": "Yığın", "kalip": "A + B = sonuç", "oncelik": 3, "tr": "", "en": "", "bozulur": "Hayvan nişinde nadir"},
+    {"kod": "SON_TARIH", "ad": "Son tarih", "kalip": "Zaman baskısı", "oncelik": 3, "tr": "", "en": "", "bozulur": "Yapay aciliyet"}
+  ],
+  "celiski_turleri": [
+    {"kod": "GORSEL", "ad": "Görsel çelişki", "kalip": "Bu bir X değil.", "kosul": "İlk karede X'e benzeyen hayvan olmalı (visual_first_frame)", "tr": "Bu bir kurt değil. Ama genlerinde gerçek bir kurt saklıyor.", "en": "This is not a wolf. But it still carries wolf DNA."},
+    {"kod": "BILGI", "ad": "Bilgi çelişkisi", "kalip": "En [sıfat] X aslında Y değil.", "tr": "Dünyanın en hızlı hayvanı çita değil.", "en": "The fastest animal on Earth isn't the cheetah."},
+    {"kod": "GUC", "ad": "Güç tersine dönmesi (av ↔ avcı)", "kalip": "X en korkulan avcı. Ama Y'yi görünce…", "tr": "Köpekbalığı okyanusun en korkulan avcısı. Ama orkayı görünce bölgeyi aylarca terk ediyor.", "en": "Great whites rule the ocean. Until an orca shows up."},
+    {"kod": "KIMLIK", "ad": "Akrabalık / kimlik çelişkisi", "kalip": "X ile Y akraba / X aslında Y değil", "tr": "Kızıl panda, pandanın akrabası bile değil.", "en": "A killer whale isn't a whale. It's a dolphin."},
+    {"kod": "GORUNUS", "ad": "Renk / görünüş çelişkisi", "kalip": "X aslında [renk] değil", "tr": "Kutup ayısı aslında beyaz değil.", "en": "Polar bears aren't white."},
+    {"kod": "ZAMAN", "ad": "Zaman çelişkisi", "kalip": "X, Y'den daha eski", "tr": "Köpekbalıkları ağaçlardan daha yaşlı.", "en": "Sharks are older than trees."}
+  ]
+}
