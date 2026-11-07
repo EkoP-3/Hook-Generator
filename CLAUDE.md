@@ -90,7 +90,7 @@ CSV'yi elle düzenleme, `arac/veri.py` üzerinden yaz.
 
 - [ ] **Aşama 0 — Kurulum (1–2 hafta)**
   - [x] CLAUDE.md, bilgi tabanı depoda
-  - [ ] vidIQ: yetkilendirme, kredi bakiyesi, Kripz Shorts listesi
+  - [x] vidIQ: Kripz yetkili (UCJTmbECTe9UwmJYGaBWqT5w), Shorts listesi ve toplu istatistik `veri/ham/` altında
   - [ ] `bilgi/formuller.json`, `sozluk_tr.json`, `sozluk_en.json`
   - [ ] `arac/puanla.py` + testler (§11: her "iyi" kanca "kötü" karşılığından yüksek puan almalı)
   - [ ] `arac/veri.py`, boş `veri/` dosyaları
@@ -112,4 +112,6 @@ MVP dışı (Aşama 4'e kadar yapma): web arayüzü, çoklu kullanıcı, ödeme,
 - 2026-11-07 — Studio'daki "izlemeye devam etti" (stayed to watch) oranı API'de birebir yok. Yerine `engagedViews / views` kullanılır ve Aşama 0'da Studio değerleriyle bir kez karşılaştırılır.
 - 2026-11-07 — İngilizce kanca MVP'de üretilir. Öğrenme yalnızca Türkçe (Kripz) verisiyle yapılır.
 - 2026-11-07 — Doğrulanmış bilgileri Claude kaynak linkiyle araştırır, kullanıcı onaylar.
+- 2026-11-07 — vidIQ kredisi **150/ay** (her çağrı 5 kredi, 2 Aralık'ta yenilenir). Krediyi koru: mümkünse tek çağrıda çok video çek (`dimensions=['video']`). Video başına en fazla 2 çağrı (istatistik + tutma eğrisi). Kredi yetmezse ücretsiz YouTube Analytics API'ye geç.
+- 2026-11-07 — İlk ölçüm: `engagedViews / views` yeni kanca formatında %61–64, eski kapışma videolarında %45–56 (Studio'daki yönle uyumlu). Ama milyonluk videolarda %53–55 çıktı (Studio'da %76–79). Muhtemelen tekrar izlemeler (döngü) `views`'u şişiriyor. Bu ölçü Studio değerleriyle ayarlanmadan ödül olarak kullanılmaz.
 - 2026-11-07 — "Kanca" çıktısı: sesli ilk cümle + ekran üst başlığı + tam örnek metin.
