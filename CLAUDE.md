@@ -79,7 +79,12 @@ veri/videolar.csv             her yayın = 1 satır
 veri/tercihler.csv            sahibin seçimleri: tarih, uretim_id, kazanan_formul, kaybeden_formul
 veri/nis/<YYYY-MM>.csv        aylık niş analizi
 veri/ham/                     ham referans veri (vidIQ, 2026-11-07)
+prototip/kaynak.html          web sitesi prototipi (Aşama 4 için deneme; Claude üretimini sayfa içinden çağırır)
+prototip/puanla.js            arac/puanla.py'nin tarayıcı sürümü (Python ile birebir aynı sonuç vermeli)
+prototip/build.py             kaynak.html + puanla.js + formuller.json → prototip/index.html
 ```
+
+`arac/puanla.py` veya sözlükler değişirse `prototip/puanla.js`'yi de güncelle, eşlik kontrolünü çalıştır, sonra `python3 prototip/build.py`.
 
 Teknoloji: Python 3, **yalnızca standart kütüphane** (kurulum yok). Veri CSV/JSONL. Sürümleme git ile.
 CSV'yi elle düzenleme, `arac/veri.py` üzerinden yaz.

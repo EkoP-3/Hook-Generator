@@ -1,0 +1,819 @@
+<title>Kanca Üretici</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Düzen: solda dört adımlı akış (konu → bilgiler → kancalar → metin), sağda yapışkan 9:16 Shorts önizlemesi; dar ekranda önizleme üstte, küçük. */
+:root {
+  --bg: #eef1f4;
+  --panel: #ffffff;
+  --ink: #14202b;
+  --muted: #5a6875;
+  --line: #d5dce3;
+  --soft: #e4e9ee;
+  --accent: #ff7a00;      /* Kripz vurgu turuncusu (altyazı rengi) */
+  --accent-ink: #b34f00;  /* metin içinde okunur turuncu */
+  --accent-soft: #fff0e2;
+  --good: #1f8a5b;
+  --warn: #b7791f;
+  --bad: #c2412d;
+  --phone: #0b0f14;
+  --font-display: "Montserrat", "Arial Black", system-ui, sans-serif;
+  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f151b; --panel: #172029; --ink: #e8edf2; --muted: #93a1ae; --line: #2a3742; --soft: #1e2933;
+    --accent: #ff8a1f; --accent-ink: #ffa552; --accent-soft: #33220f;
+    --good: #4fc28d; --warn: #e0a84a; --bad: #f07a63; --phone: #05080b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f151b; --panel: #172029; --ink: #e8edf2; --muted: #93a1ae; --line: #2a3742; --soft: #1e2933;
+  --accent: #ff8a1f; --accent-ink: #ffa552; --accent-soft: #33220f;
+  --good: #4fc28d; --warn: #e0a84a; --bad: #f07a63; --phone: #05080b;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 48px;
+}
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
+button, input, textarea, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.kabuk { max-width: 1180px; margin: 0 auto; display: grid; gap: 20px; }
+
+/* Üst şerit */
+.ust { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; }
+.marka { display: grid; gap: 2px; }
+.marka h1 { font-size: clamp(26px, 4vw, 34px); font-weight: 900; letter-spacing: -0.01em; }
+.marka h1 span { color: var(--accent); }
+.marka p { margin: 0; color: var(--muted); }
+.rozetler { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.rozet {
+  font-family: var(--font-data); font-size: 12px; padding: 4px 9px; border-radius: 999px;
+  border: 1px solid var(--line); color: var(--muted); background: var(--panel); white-space: nowrap;
+}
+.rozet.canli { border-color: var(--good); color: var(--good); }
+.rozet.kapali { border-color: var(--warn); color: var(--warn); }
+
+.duzen { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 24px; align-items: start; }
+.akis { display: grid; gap: 18px; min-width: 0; }
+.yan { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); display: grid; gap: 12px; }
+
+/* Adım */
+.adim { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; display: grid; gap: 14px; min-width: 0; }
+.adim-bas { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.adim-no {
+  font-family: var(--font-data); font-weight: 700; font-size: 13px; color: var(--accent-ink);
+  border: 1.5px solid var(--accent); border-radius: 6px; padding: 1px 7px;
+}
+.adim h2 { font-size: 18px; font-weight: 800; }
+.adim-not { color: var(--muted); font-size: 13px; margin-left: auto; }
+.adim[aria-disabled="true"] { opacity: .55; }
+
+.alanlar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.alan { display: grid; gap: 5px; min-width: 0; }
+.alan.genis { grid-column: 1 / -1; }
+.alan label, .etiket { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+input[type="text"], textarea, select {
+  width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px;
+}
+textarea { resize: vertical; min-height: 44px; }
+.secmeli { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--bg); }
+.secmeli button { border: 0; background: transparent; padding: 8px 14px; cursor: pointer; font-weight: 600; color: var(--muted); }
+.secmeli button[aria-pressed="true"] { background: var(--ink); color: var(--panel); }
+
+.dugmeler { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.dugme {
+  border: 1px solid var(--ink); background: var(--ink); color: var(--panel); border-radius: 8px;
+  padding: 9px 16px; font-weight: 700; cursor: pointer;
+}
+.dugme.ikincil { background: transparent; color: var(--ink); border-color: var(--line); }
+.dugme:disabled { opacity: .5; cursor: not-allowed; }
+.durum-yazi { font-size: 13px; color: var(--muted); }
+.durum-yazi.hata { color: var(--bad); }
+
+/* Bilgiler */
+.bilgi-liste { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.bilgi {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: start;
+  padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg);
+}
+.bilgi input { margin-top: 4px; width: 17px; height: 17px; accent-color: var(--good); }
+.bilgi-metin { min-width: 0; }
+.bilgi-metin p { margin: 0; }
+.bilgi-metin small { color: var(--muted); display: block; margin-top: 2px; }
+.cip { font-family: var(--font-data); font-size: 11px; padding: 2px 7px; border-radius: 5px; white-space: nowrap; border: 1px solid; }
+.cip.onayli { color: var(--good); border-color: var(--good); }
+.cip.dogrulanmadi { color: var(--warn); border-color: var(--warn); }
+.bilgi-ekle { display: flex; gap: 8px; }
+.bilgi-ekle input { flex: 1; }
+
+/* Kanca kartları */
+.kancalar { display: grid; gap: 10px; }
+.kanca {
+  display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 14px; padding: 14px;
+  border: 1px solid var(--line); border-radius: 10px; background: var(--bg); cursor: pointer;
+}
+.kanca[aria-checked="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); background: var(--panel); }
+.skor { display: grid; justify-items: center; align-content: start; gap: 4px; }
+.skor-sayi { font-family: var(--font-data); font-weight: 700; font-size: 26px; line-height: 1; font-variant-numeric: tabular-nums; }
+.skor-sayi.iyi { color: var(--good); } .skor-sayi.orta { color: var(--warn); } .skor-sayi.zayif { color: var(--bad); }
+.skor small { font-size: 11px; color: var(--muted); }
+.kanca-govde { display: grid; gap: 8px; min-width: 0; }
+.kanca-ust { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.formul { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 5px; background: var(--soft); }
+.kesif { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 5px; color: var(--accent-ink); background: var(--accent-soft); }
+.kanca textarea {
+  font-family: var(--font-display); font-weight: 800; font-size: 16px; line-height: 1.35;
+  background: transparent; border-color: transparent; padding: 4px 6px; margin-left: -6px; resize: none;
+}
+.kanca textarea:hover, .kanca textarea:focus { border-color: var(--line); background: var(--panel); }
+.cubuklar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.cubuk { display: grid; gap: 3px; min-width: 0; }
+.cubuk span { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cubuk i { display: block; height: 5px; border-radius: 3px; background: var(--soft); position: relative; overflow: hidden; }
+.cubuk i b { position: absolute; inset: 0 auto 0 0; background: var(--muted); border-radius: 3px; }
+.cubuk.en-zayif span { color: var(--bad); font-weight: 700; }
+.cubuk.en-zayif i b { background: var(--bad); }
+.oneri { font-size: 13px; color: var(--muted); margin: 0; }
+.oneri strong { color: var(--bad); font-weight: 700; }
+.ceza { font-size: 12px; color: var(--bad); margin: 0; }
+.devam { font-size: 13px; margin: 0; color: var(--muted); }
+.devam em { font-style: normal; color: var(--ink); }
+
+.basliklar { display: grid; gap: 8px; }
+.baslik-secenek { display: flex; flex-wrap: wrap; gap: 8px; }
+.baslik-cip {
+  border: 1px solid var(--line); background: var(--bg); border-radius: 8px; padding: 7px 11px; cursor: pointer;
+  font-family: var(--font-display); font-weight: 800; font-size: 13px;
+}
+.baslik-cip em { font-style: normal; color: var(--accent-ink); }
+.baslik-cip[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.yt { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.yt input { flex: 1; min-width: 0; }
+.sayac { font-family: var(--font-data); font-size: 12px; color: var(--muted); }
+.sayac.asim { color: var(--bad); }
+
+/* Metin */
+.zaman { display: grid; gap: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.bolum { display: grid; grid-template-columns: 96px minmax(0, 1fr); border-top: 1px solid var(--line); }
+.bolum:first-child { border-top: 0; }
+.bolum-etiket {
+  font-family: var(--font-data); font-size: 11px; font-weight: 700; color: var(--muted);
+  padding: 10px; background: var(--soft); display: grid; align-content: start; gap: 2px;
+}
+.bolum-etiket span { font-weight: 500; }
+.bolum:first-child .bolum-etiket { color: var(--accent-ink); background: var(--accent-soft); }
+.bolum p { margin: 0; padding: 10px 12px; }
+.metin-ozet { display: flex; flex-wrap: wrap; gap: 8px 16px; font-family: var(--font-data); font-size: 12px; color: var(--muted); }
+.metin-ozet b { color: var(--ink); }
+
+/* Önizleme (9:16) */
+.telefon {
+  width: 100%; max-width: 300px; margin: 0 auto; aspect-ratio: 9 / 16; border-radius: 26px; position: relative; overflow: hidden;
+  background: var(--phone); border: 6px solid var(--phone); box-shadow: 0 0 0 1px var(--line);
+}
+.kare { position: absolute; inset: 0; background:
+  radial-gradient(120% 70% at 30% 75%, #4a5a4f 0%, transparent 60%),
+  radial-gradient(90% 60% at 80% 30%, #6d7a86 0%, transparent 55%),
+  linear-gradient(180deg, #27313a 0%, #1a2228 100%); }
+.kare::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.45), transparent 30%, transparent 70%, rgba(0,0,0,.55)); }
+.ust-baslik {
+  position: absolute; top: 12%; left: 8%; right: 8%; text-align: center; z-index: 1;
+  font-family: var(--font-display); font-weight: 800; font-size: clamp(15px, 1.5vw + 8px, 19px); line-height: 1.12;
+  color: #fff; text-transform: none; paint-order: stroke fill; -webkit-text-stroke: 4px #000;
+}
+.ust-baslik em { font-style: normal; color: #ff7a00; display: block; text-shadow: 0 0 14px rgba(255,122,0,.55); }
+.altyazi {
+  position: absolute; top: 52%; left: 0; right: 0; text-align: center; z-index: 1; transform: translateY(-50%);
+  font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 2.4vw + 12px, 32px);
+  color: #fff; paint-order: stroke fill; -webkit-text-stroke: 6px #000; text-shadow: 0 0 16px rgba(255,255,255,.35);
+}
+.altyazi.vurgu { color: #ff7a00; text-shadow: 0 0 16px rgba(255,122,0,.6); }
+.altyazi.pop { animation: pop .14s ease-out; }
+@keyframes pop { from { transform: translateY(-50%) scale(.86); } to { transform: translateY(-50%) scale(1); } }
+.saniye {
+  position: absolute; left: 10px; bottom: 10px; z-index: 1; font-family: var(--font-data); font-size: 11px;
+  color: #fff; background: rgba(0,0,0,.55); padding: 2px 7px; border-radius: 5px;
+}
+.ilk-kare-not { position: absolute; right: 10px; left: 64px; bottom: 10px; z-index: 1; font-size: 11px; color: rgba(255,255,255,.75); text-align: right; line-height: 1.3; }
+.yan-not { font-size: 13px; color: var(--muted); margin: 0; text-align: center; }
+.yan .dugmeler { justify-content: center; }
+.ornek-serit {
+  display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; justify-content: space-between;
+  padding: 10px 14px; border-radius: 8px; border: 1px dashed var(--warn); color: var(--ink); font-size: 14px;
+}
+.ornek-serit b { color: var(--warn); }
+
+@media (max-width: 960px) {
+  .duzen { grid-template-columns: minmax(0, 1fr); }
+  .yan { position: static; order: -1; grid-template-columns: 150px minmax(0, 1fr); align-items: center; }
+  .telefon { max-width: 150px; border-radius: 16px; border-width: 4px; }
+  .ust-baslik { font-size: 10px; -webkit-text-stroke: 2.5px #000; }
+  .altyazi { font-size: 18px; -webkit-text-stroke: 4px #000; }
+  .ilk-kare-not { display: none; }
+  .yan-not { text-align: left; }
+  .yan .dugmeler { justify-content: flex-start; }
+}
+@media (max-width: 560px) {
+  .alanlar { grid-template-columns: minmax(0, 1fr); }
+  .kanca { grid-template-columns: minmax(0, 1fr); }
+  .skor { justify-items: start; grid-auto-flow: column; align-items: baseline; justify-content: start; }
+  .cubuklar { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .bolum { grid-template-columns: minmax(0, 1fr); }
+  .bolum-etiket { grid-auto-flow: column; justify-content: start; gap: 8px; }
+  .adim-not { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .altyazi.pop { animation: none; } }
+</style>
+
+<div class="kabuk">
+  <header class="ust">
+    <div class="marka">
+      <h1>Kanca <span>Üretici</span></h1>
+      <p>Shorts, Reels ve TikTok için ilk 3 saniye. Türkçe ve İngilizce.</p>
+    </div>
+    <div class="rozetler">
+      <span class="rozet" id="surumRozet">kurallar v0.1</span>
+      <span class="rozet kapali" id="canliRozet">canlı üretim kontrol ediliyor…</span>
+    </div>
+  </header>
+
+  <div class="ornek-serit" id="ornekSerit">
+    <span><b>Örnek gösteriliyor:</b> "Kurt mu Husky mi?" konusu için hazır bir oturum. Kendi konunu yazıp yeniden üretebilirsin.</span>
+  </div>
+
+  <div class="duzen">
+    <main class="akis">
+      <!-- 1. Konu -->
+      <section class="adim" aria-labelledby="a1">
+        <div class="adim-bas"><span class="adim-no">1</span><h2 id="a1">Konu</h2><span class="adim-not">Sadece konuyu yazman yeter, gerisi isteğe bağlı.</span></div>
+        <div class="alanlar">
+          <div class="alan genis">
+            <label for="konu">Konu</label>
+            <input type="text" id="konu" placeholder="ör. Orka mı köpekbalığı mı?">
+          </div>
+          <div class="alan">
+            <label for="hayvanlar">Hayvanlar</label>
+            <input type="text" id="hayvanlar" placeholder="ör. orka, köpekbalığı">
+          </div>
+          <div class="alan">
+            <span class="etiket" id="dilEtiket">Dil</span>
+            <div class="secmeli" role="group" aria-labelledby="dilEtiket" id="dilSec">
+              <button type="button" data-dil="tr" aria-pressed="true">Türkçe</button>
+              <button type="button" data-dil="en" aria-pressed="false">English</button>
+            </div>
+          </div>
+          <div class="alan genis">
+            <label for="ilkKare">İlk karede ne var?</label>
+            <input type="text" id="ilkKare" placeholder="ör. kurda benzeyen gri bir husky kameraya yürüyor">
+          </div>
+          <div class="alan">
+            <label for="ton">Ton</label>
+            <select id="ton">
+              <option value="kapışma">Kapışma</option>
+              <option value="tatlı">Tatlı</option>
+              <option value="gizem">Gizem</option>
+            </select>
+          </div>
+          <div class="alan">
+            <label for="format">Format</label>
+            <select id="format">
+              <option value="karşılaştırma">Karşılaştırma (A mı B mi?)</option>
+              <option value="kaçabilir misin">Hangisinden kaçabilirsin?</option>
+              <option value="sırlar">Sana söylemediği sırlar</option>
+            </select>
+          </div>
+        </div>
+        <div class="dugmeler">
+          <button class="dugme" type="button" id="bilgiDugme">Bilgileri öner</button>
+          <span class="durum-yazi" id="bilgiDurum" role="status"></span>
+        </div>
+      </section>
+
+      <!-- 2. Bilgiler -->
+      <section class="adim" aria-labelledby="a2">
+        <div class="adim-bas"><span class="adim-no">2</span><h2 id="a2">Doğrulanmış bilgiler</h2><span class="adim-not">Kancalar yalnızca işaretlediğin bilgileri kullanır.</span></div>
+        <ul class="bilgi-liste" id="bilgiListe"></ul>
+        <form class="bilgi-ekle" id="bilgiEkleForm">
+          <label class="etiket" for="yeniBilgi" hidden>Kendi bilgin</label>
+          <input type="text" id="yeniBilgi" placeholder="Kendi bilgini ekle (kaynağından emin olduğun)">
+          <button class="dugme ikincil" type="submit">Ekle</button>
+        </form>
+        <div class="dugmeler">
+          <button class="dugme" type="button" id="kancaDugme">5 kanca üret</button>
+          <span class="durum-yazi" id="kancaDurum" role="status"></span>
+        </div>
+      </section>
+
+      <!-- 3. Kancalar -->
+      <section class="adim" aria-labelledby="a3">
+        <div class="adim-bas"><span class="adim-no">3</span><h2 id="a3">Kancalar</h2><span class="adim-not">Metni düzenle, puan anında değişir. Birini seç.</span></div>
+        <div class="kancalar" id="kancaListe" role="radiogroup" aria-labelledby="a3"></div>
+        <div class="basliklar">
+          <span class="etiket">Ekran üst başlığı</span>
+          <div class="baslik-secenek" id="ustBaslikListe"></div>
+        </div>
+        <div class="basliklar">
+          <label class="etiket" for="ytBaslik">YouTube başlığı</label>
+          <div class="yt"><input type="text" id="ytBaslik"><span class="sayac" id="ytSayac"></span></div>
+        </div>
+      </section>
+
+      <!-- 4. Metin -->
+      <section class="adim" aria-labelledby="a4">
+        <div class="adim-bas"><span class="adim-no">4</span><h2 id="a4">Tam metin</h2><span class="adim-not">20–25 saniye, seslendirmeye hazır.</span></div>
+        <div class="zaman" id="metinBolumler"></div>
+        <div class="metin-ozet" id="metinOzet"></div>
+        <div class="dugmeler">
+          <button class="dugme" type="button" id="metinDugme">Seçili kancayla metni yaz</button>
+          <button class="dugme ikincil" type="button" id="kopyaDugme">Metni kopyala</button>
+          <span class="durum-yazi" id="metinDurum" role="status"></span>
+        </div>
+        <textarea id="kopyaAlani" hidden readonly aria-label="Kopyalanacak metin"></textarea>
+      </section>
+    </main>
+
+    <aside class="yan" aria-label="Shorts önizlemesi">
+      <div class="telefon" id="telefon">
+        <div class="kare"></div>
+        <div class="ust-baslik" id="onizUst"></div>
+        <div class="altyazi" id="onizAlt"></div>
+        <span class="saniye" id="onizSaniye">0,0 sn</span>
+        <span class="ilk-kare-not" id="onizKare"></span>
+      </div>
+      <div>
+        <div class="dugmeler"><button class="dugme ikincil" type="button" id="oynatDugme">▶ İlk 3 saniyeyi oynat</button></div>
+        <p class="yan-not">Kanca tek kelimelik altyazıyla, saniyede ~2,4 kelime hızında.</p>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+/*@@PUANLA@@*/
+</script>
+<script>
+const FORMULLER = /*@@FORMULLER@@*/;
+</script>
+<script>
+"use strict";
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const FORMUL = Object.fromEntries(FORMULLER.formuller.map((f) => [f.kod, f]));
+  const OZ_AD = { specificity: "Somutluk", address: "Hitap", stakes: "Risk", curiosity: "Merak", brevity: "Kısalık" };
+  const KELIME_HIZI = 2.4; // kelime / saniye (50–60 kelime ≈ 20–25 sn)
+  const trUpper = (s) => s.replace(/i/g, "İ").replace(/ı/g, "I").toUpperCase();
+
+  // ---------- Örnek oturum (Kurt mu Husky mi?) ----------
+  const ORNEK = {
+    dil: "tr", konu: "Kurt mu Husky mi?", hayvanlar: "kurt, husky",
+    ilkKare: "kurda benzeyen gri bir husky kameraya doğru yürüyor", ton: "kapışma", format: "karşılaştırma",
+    bilgiler: [
+      { metin: "Huskylerin gözleri mavi olabilir.", kontrol: "Irk standartları (AKC, FCI Siberian Husky)", onay: true },
+      { metin: "Yetişkin kurtlarda mavi göz neredeyse hiç görülmez; gözleri genelde sarı ya da kehribar rengidir.", kontrol: "Kurt biyolojisi kaynakları (International Wolf Center)", onay: true },
+      { metin: "Kurt yavruları mavi gözlü doğar, gözleri birkaç ay içinde sararır.", kontrol: "International Wolf Center", onay: true },
+      { metin: "Huskyler kuyruklarını çoğu zaman sırtlarına doğru kıvırır, kurtların kuyruğu aşağı sarkar.", kontrol: "Irk standardı + kurt davranışı kaynakları", onay: true },
+      { metin: "Bütün köpekler, eski bir kurt topluluğundan evcilleştirilerek gelir.", kontrol: "Köpek evcilleştirme genetiği çalışmaları", onay: true },
+    ],
+    kancalar: [
+      { formul: "TERS+IMKANSIZ", kesif: false, kanca: "Bu bir kurt değil. Ama genlerinde hâlâ kurt saklıyor.", buyut: "Çünkü bütün köpekler eski bir kurt topluluğundan geliyor.", surpriz: "Kurt yavruları da mavi gözlü doğuyor.", kapanis: "Sence hangisi daha karizmatik?" },
+      { formul: "KARSILASTIRMA+HITAP", kesif: false, kanca: "Kurt mu husky mi? Gözlerine bakarsan hemen anlarsın.", buyut: "Ama dikkat, yavrularda bu yöntem işe yaramıyor.", surpriz: "Kurt yavruları da mavi gözlü doğuyor.", kapanis: "Kapışsalar hangisi kazanır?" },
+      { formul: "UYARI", kesif: false, kanca: "Ormanda bunu görürsen sakın husky sanma.", buyut: "Çünkü ikisini ayıran şey sandığın gibi renk değil.", surpriz: "Kuyruğu sırtına kıvrıksa rahatla, o bir husky.", kapanis: "Sen olsan ilk bakışta ayırabilir miydin?" },
+      { formul: "KOKEN", kesif: false, kanca: "Bütün köpekler aslında bir kurttan geliyor. Peki husky neden hâlâ ona benziyor?", buyut: "Ama aradaki farklar düşündüğünden büyük.", surpriz: "Kurt yavruları da mavi gözlü doğuyor.", kapanis: "Sence hangisi daha karizmatik?" },
+      { formul: "SORU", kesif: true, kanca: "Karşına bunlardan biri çıksa, hangisinden kaçardın?", buyut: "Çünkü biri senin kanepende uyur, öteki asla.", surpriz: "Kurt yavruları da mavi gözlü doğuyor.", kapanis: "Hangisinden kaçardın, yorumlara yaz." },
+    ],
+    ustBasliklar: ["Bu Bir | *Kurt Değil*", "Kurt mu | *Husky mi?*", "Farkı | *Gözlerinde*"],
+    ytBaslik: "Kurt mu Husky mi? Gözlerine Bak 😳🐺",
+    metin: [
+      { etiket: "KANCA", metin: "Bu bir kurt değil. Ama genlerinde hâlâ kurt saklıyor." },
+      { etiket: "BÜYÜT", metin: "Çünkü bütün köpekler eski bir kurt topluluğundan geliyor." },
+      { etiket: "FARK 1", metin: "İlk fark gözlerde. Husky'nin gözleri mavi olabilir, yetişkin kurtta mavi göz neredeyse hiç yok." },
+      { etiket: "FARK 2", metin: "İkinci fark kuyruk. Husky kuyruğunu sırtına kıvırır, kurt ise aşağı sarkıtır." },
+      { etiket: "SÜRPRİZ", metin: "Ve en ilginç kısmı, kurt yavruları da mavi gözlü doğuyor. Büyüdükçe gözleri sararıyor." },
+      { etiket: "KAPANIŞ", metin: "Sence hangisi daha karizmatik?" },
+    ],
+  };
+
+  const d = JSON.parse(JSON.stringify(ORNEK));
+  d.secili = 0; d.ustSecili = 0; d.ornek = true;
+
+  // ---------- Formül kullanımı (keşif için, bu tarayıcıda) ----------
+  const KULLANIM_ANAHTAR = "kanca-formul-kullanim";
+  function kullanimOku() { try { return JSON.parse(localStorage.getItem(KULLANIM_ANAHTAR) || "{}"); } catch (e) { return {}; } }
+  function kullanimYaz(kodlar) {
+    try {
+      const k = kullanimOku();
+      kodlar.forEach((kod) => { k[kod] = (k[kod] || 0) + 1; });
+      localStorage.setItem(KULLANIM_ANAHTAR, JSON.stringify(k));
+    } catch (e) { /* depolama kapalı olabilir */ }
+  }
+  function formulPlani(dil) {
+    const uygun = FORMULLER.formuller.filter((f) => f[dil]);
+    const kul = kullanimOku();
+    const oncelikli = uygun.filter((f) => f.oncelik === 1);
+    const kesif = uygun.filter((f) => f.oncelik === 2)
+      .sort((a, b) => (kul[a.kod] || 0) - (kul[b.kod] || 0) || a.kod.localeCompare(b.kod)).slice(0, 3);
+    return { oncelikli, kesif, hepsi: uygun.filter((f) => f.oncelik <= 2) };
+  }
+  const formulAdi = (kod) => kod.split("+").map((k) => (FORMUL[k] ? FORMUL[k].ad : k)).join(" + ");
+
+  // ---------- Puan ----------
+  const puanla = (metin) => window.KancaPuan.puanla(metin || "", d.dil);
+  const skorSinif = (s) => (s >= 55 ? "iyi" : s >= 35 ? "orta" : "zayif");
+
+  // ---------- Çizim ----------
+  function konuYaz() {
+    $("konu").value = d.konu; $("hayvanlar").value = d.hayvanlar; $("ilkKare").value = d.ilkKare;
+    $("ton").value = d.ton; $("format").value = d.format;
+    document.querySelectorAll("#dilSec button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.dil === d.dil)));
+  }
+
+  function bilgileriCiz() {
+    const ul = $("bilgiListe"); ul.textContent = "";
+    if (!d.bilgiler.length) {
+      const li = document.createElement("li"); li.className = "durum-yazi";
+      li.textContent = "Henüz bilgi yok. Yukarıdan \"Bilgileri öner\"e bas ya da kendi bilgini ekle.";
+      ul.append(li); return;
+    }
+    d.bilgiler.forEach((b, i) => {
+      const li = document.createElement("li"); li.className = "bilgi";
+      const cb = document.createElement("input"); cb.type = "checkbox"; cb.id = "bilgi-" + i; cb.checked = b.onay;
+      cb.addEventListener("change", () => { b.onay = cb.checked; bilgileriCiz(); });
+      const g = document.createElement("label"); g.className = "bilgi-metin"; g.htmlFor = cb.id;
+      const p = document.createElement("span"); p.style.display = "block"; p.textContent = b.metin;
+      g.append(p);
+      if (b.kontrol) { const s = document.createElement("small"); s.textContent = "Nereden doğrulanır: " + b.kontrol; g.append(s); }
+      const c = document.createElement("span");
+      c.className = "cip " + (b.onay ? "onayli" : "dogrulanmadi");
+      c.textContent = b.onay ? "onaylı" : "doğrulanmadı";
+      li.append(cb, g, c); ul.append(li);
+    });
+  }
+
+  function cubuklarHtml(sonuc) {
+    return Object.keys(OZ_AD).map((o) => {
+      const v = sonuc.ozellikler[o];
+      return `<div class="cubuk${o === sonuc.en_zayif ? " en-zayif" : ""}"><span>${OZ_AD[o]} ${v}</span><i><b style="width:${v}%"></b></i></div>`;
+    }).join("");
+  }
+
+  function kancaPuanCiz(kart, k) {
+    const s = puanla(k.kanca);
+    const sayi = kart.querySelector(".skor-sayi");
+    sayi.textContent = Math.round(s.skor); sayi.className = "skor-sayi " + skorSinif(s.skor);
+    kart.querySelector(".cubuklar").innerHTML = cubuklarHtml(s);
+    const o = kart.querySelector(".oneri"); o.textContent = "";
+    const st = document.createElement("strong"); st.textContent = "En zayıf: " + OZ_AD[s.en_zayif] + ". ";
+    o.append(st, document.createTextNode(s.oneri));
+    const cz = kart.querySelector(".ceza");
+    const cezalar = s.cezalar.map((c) => c.neden);
+    cz.textContent = cezalar.length ? "Ceza: " + cezalar.join(" · ") : ""; cz.hidden = !cezalar.length;
+  }
+
+  function kancalariCiz() {
+    const liste = $("kancaListe"); liste.textContent = "";
+    if (!d.kancalar.length) {
+      const p = document.createElement("p"); p.className = "durum-yazi";
+      p.textContent = "Bilgileri onaylayıp \"5 kanca üret\"e bas."; liste.append(p);
+    }
+    d.kancalar.forEach((k, i) => {
+      const kart = document.createElement("div");
+      kart.className = "kanca"; kart.setAttribute("role", "radio"); kart.tabIndex = 0;
+      kart.setAttribute("aria-checked", String(i === d.secili));
+      kart.innerHTML = `
+        <div class="skor"><span class="skor-sayi"></span><small>/ 100</small></div>
+        <div class="kanca-govde">
+          <div class="kanca-ust"><span class="formul"></span>${k.kesif ? '<span class="kesif">keşif</span>' : ""}</div>
+          <textarea rows="2" aria-label="Kanca metni ${i + 1}"></textarea>
+          <div class="cubuklar"></div>
+          <p class="oneri"></p>
+          <p class="ceza" hidden></p>
+          <p class="devam"></p>
+        </div>`;
+      kart.querySelector(".formul").textContent = formulAdi(k.formul);
+      const ta = kart.querySelector("textarea"); ta.id = "kanca-" + i; ta.value = k.kanca;
+      ta.addEventListener("input", () => { k.kanca = ta.value; kancaPuanCiz(kart, k); if (i === d.secili) onizlemeCiz(); });
+      ta.addEventListener("click", (e) => e.stopPropagation());
+      ta.addEventListener("focus", () => sec(i));
+      const devam = kart.querySelector(".devam");
+      [["Sonra: ", k.buyut], ["Sürpriz: ", k.surpriz], ["Kapanış: ", k.kapanis]].forEach(([t, v]) => {
+        if (!v) return; const em = document.createElement("em"); em.textContent = v;
+        devam.append(document.createTextNode((devam.childNodes.length ? "  ·  " : "") + t), em);
+      });
+      kart.addEventListener("click", () => sec(i));
+      kart.addEventListener("keydown", (e) => {
+        if (e.target !== kart) return;
+        if (e.key === " " || e.key === "Enter") { e.preventDefault(); sec(i); }
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+          e.preventDefault(); const j = (i + (e.key === "ArrowDown" ? 1 : -1) + d.kancalar.length) % d.kancalar.length;
+          sec(j); liste.children[j].focus();
+        }
+      });
+      kancaPuanCiz(kart, k);
+      liste.append(kart);
+    });
+  }
+
+  function sec(i) {
+    if (d.secili === i) return;
+    d.secili = i;
+    document.querySelectorAll("#kancaListe .kanca").forEach((el, j) => el.setAttribute("aria-checked", String(j === i)));
+    onizlemeCiz();
+  }
+
+  function ustBaslikHtml(s) {
+    const [a, b] = (s || "").split("|").map((x) => x.trim());
+    const esc = (t) => t.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+    const vurgu = (t) => esc(t).replace(/\*(.+?)\*/g, "<em>$1</em>");
+    return { a: vurgu(a || ""), b: vurgu(b || "") };
+  }
+
+  function basliklariCiz() {
+    const k = $("ustBaslikListe"); k.textContent = "";
+    d.ustBasliklar.forEach((s, i) => {
+      const b = document.createElement("button"); b.type = "button"; b.className = "baslik-cip";
+      b.setAttribute("aria-pressed", String(i === d.ustSecili));
+      const h = ustBaslikHtml(s); b.innerHTML = h.a + " / " + h.b;
+      b.addEventListener("click", () => { d.ustSecili = i; basliklariCiz(); onizlemeCiz(); });
+      k.append(b);
+    });
+    $("ytBaslik").value = d.ytBaslik || ""; ytSay();
+  }
+  function ytSay() {
+    const n = [...$("ytBaslik").value].length; const s = $("ytSayac");
+    s.textContent = n + " / 40"; s.className = "sayac" + (n > 40 ? " asim" : "");
+  }
+
+  function onizlemeCiz() {
+    const [a, b] = (d.ustBasliklar[d.ustSecili] || "").split("|").map((x) => x.replace(/\*/g, "").trim());
+    const ust = $("onizUst"); ust.textContent = "";
+    if (a || b) {
+      ust.append(document.createTextNode(buyukHarf(a || "")));
+      const em = document.createElement("em"); em.textContent = buyukHarf(b || ""); ust.append(em);
+    }
+    const k = d.kancalar[d.secili];
+    const kelimeler = k ? k.kanca.split(/\s+/).filter(Boolean) : [];
+    altyaziGoster(kelimeler[0] || "", 0);
+    $("onizKare").textContent = d.ilkKare ? "İlk kare: " + d.ilkKare : "";
+  }
+  const buyukHarf = (s) => (d.dil === "tr" ? trUpper(s) : s.toUpperCase());
+
+  function altyaziGoster(kelime, t) {
+    const el = $("onizAlt");
+    el.textContent = buyukHarf(kelime);
+    const temiz = kelime.toLocaleLowerCase("tr").replace(/[^\p{L}]/gu, "");
+    el.classList.toggle("vurgu", ["değil", "ama", "aslında", "sakın", "asla", "isn't", "not", "but", "never"].includes(temiz));
+    el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop");
+    $("onizSaniye").textContent = t.toFixed(1).replace(".", ",") + " sn";
+  }
+
+  let oynatZaman = null;
+  function oynat() {
+    clearInterval(oynatZaman);
+    const k = d.kancalar[d.secili]; if (!k) return;
+    const kelimeler = k.kanca.split(/\s+/).filter(Boolean); let i = 0;
+    const adim = 1000 / KELIME_HIZI;
+    const btn = $("oynatDugme"); btn.textContent = "■ Durdur";
+    const bitir = () => { clearInterval(oynatZaman); oynatZaman = null; btn.textContent = "▶ İlk 3 saniyeyi oynat"; };
+    altyaziGoster(kelimeler[0], 0);
+    oynatZaman = setInterval(() => {
+      i++;
+      if (i >= kelimeler.length || i * adim / 1000 > 3.4) { bitir(); setTimeout(onizlemeCiz, 600); return; }
+      altyaziGoster(kelimeler[i], i * adim / 1000);
+    }, adim);
+    btn.onclick = () => { if (oynatZaman) { bitir(); onizlemeCiz(); } else oynat(); };
+  }
+
+  function metniCiz() {
+    const kutu = $("metinBolumler"); kutu.textContent = "";
+    if (!d.metin.length) {
+      const p = document.createElement("p"); p.className = "durum-yazi"; p.style.padding = "10px 12px";
+      p.textContent = "Bir kanca seçip \"Seçili kancayla metni yaz\"a bas."; kutu.append(p);
+      $("metinOzet").textContent = ""; return;
+    }
+    let t = 0;
+    d.metin.forEach((b) => {
+      const n = b.metin.split(/\s+/).filter(Boolean).length; const sure = n / KELIME_HIZI;
+      const satir = document.createElement("div"); satir.className = "bolum";
+      const et = document.createElement("div"); et.className = "bolum-etiket";
+      et.append(document.createTextNode(b.etiket));
+      const z = document.createElement("span"); z.textContent = `${t.toFixed(0)}–${(t + sure).toFixed(0)} sn`; et.append(z);
+      const p = document.createElement("p"); p.textContent = b.metin;
+      satir.append(et, p); kutu.append(satir); t += sure;
+    });
+    const toplam = d.metin.reduce((a, b) => a + b.metin.split(/\s+/).filter(Boolean).length, 0);
+    const sn = toplam / KELIME_HIZI;
+    const oz = $("metinOzet"); oz.textContent = "";
+    [["kelime", toplam], ["tahmini süre", sn.toFixed(0) + " sn"], ["hedef", "50–60 kelime · 20–25 sn"]].forEach(([a, b]) => {
+      const s = document.createElement("span"); s.append(document.createTextNode(a + " "));
+      const bb = document.createElement("b"); bb.textContent = b; s.append(bb); oz.append(s);
+    });
+  }
+
+  function hepsiniCiz() { konuYaz(); bilgileriCiz(); kancalariCiz(); basliklariCiz(); metniCiz(); onizlemeCiz(); }
+
+  // ---------- Girdi ----------
+  ["konu", "hayvanlar", "ilkKare", "ton", "format"].forEach((id) => {
+    $(id).addEventListener("input", () => { d[id] = $(id).value; if (id === "ilkKare") onizlemeCiz(); });
+  });
+  document.querySelectorAll("#dilSec button").forEach((b) => b.addEventListener("click", () => {
+    d.dil = b.dataset.dil; konuYaz(); kancalariCiz(); onizlemeCiz();
+  }));
+  $("bilgiEkleForm").addEventListener("submit", (e) => {
+    e.preventDefault(); const v = $("yeniBilgi").value.trim(); if (!v) return;
+    d.bilgiler.push({ metin: v, kontrol: "Senin eklediğin bilgi", onay: true }); $("yeniBilgi").value = ""; bilgileriCiz();
+  });
+  $("ytBaslik").addEventListener("input", () => { d.ytBaslik = $("ytBaslik").value; ytSay(); });
+  $("oynatDugme").onclick = oynat;
+  $("kopyaDugme").addEventListener("click", async () => {
+    const metin = d.metin.map((b) => b.metin).join(" ");
+    if (!metin) { durum("metinDurum", "Kopyalanacak metin yok."); return; }
+    try { await navigator.clipboard.writeText(metin); durum("metinDurum", "Kopyalandı."); }
+    catch (e) {
+      const ta = $("kopyaAlani"); ta.hidden = false; ta.value = metin; ta.focus(); ta.select();
+      durum("metinDurum", "Kopyalama izni yok. Metin seçildi, kendin kopyalayabilirsin.");
+    }
+  });
+
+  function durum(id, metin, hata) { const el = $(id); el.textContent = metin; el.classList.toggle("hata", !!hata); }
+
+  // ---------- Claude ile üretim ----------
+  let sample = null;
+  const HATA = {
+    not_granted: "Bu sayfanın Claude'u kullanmasına izin verilmedi. Örnek oturum gösteriliyor.",
+    sampling_disabled: "Bu hesapta Claude kullanılamıyor.",
+    rate_limited: "Çok sık istek gönderildi. Biraz bekleyip tekrar dene.",
+    session_expired: "Oturumun kapanmış. Claude'a yeniden giriş yapıp tekrar dene.",
+    invalid_json: "Yanıt beklenen biçimde gelmedi. Tekrar dene.",
+    refused: "Claude bu isteği yanıtlamadı. Konuyu biraz değiştirip dene.",
+    upstream_error: "Bağlantı sorunu oldu. Tekrar dene.",
+    _bos: "Önce konuyu yaz.",
+    _bilgi_yok: "Önce en az bir bilgiyi işaretle.",
+    _kanca_yok: "Önce bir kanca seç.",
+  };
+  const hataMetni = (e) => HATA[e && e.code] || HATA.upstream_error;
+  const KALICI = new Set(["not_granted", "sampling_disabled", "not_declared", "capability_disabled", "capability_removed"]);
+
+  function canliDurum(acik, metin) {
+    const r = $("canliRozet"); r.textContent = metin; r.className = "rozet " + (acik ? "canli" : "kapali");
+    ["bilgiDugme", "kancaDugme", "metinDugme"].forEach((id) => { $(id).disabled = !acik; });
+  }
+
+  function baglam() {
+    return `Dil: ${d.dil === "tr" ? "Türkçe" : "İngilizce"}
+Konu: ${d.konu || "-"}
+Hayvanlar: ${d.hayvanlar || "-"}
+İlk kare: ${d.ilkKare || "belirtilmedi"}
+Ton: ${d.ton}
+Format: ${d.format}`;
+  }
+
+  async function calistir(dugmeId, durumId, bekleMetni, is) {
+    if (!sample) return;
+    const btn = $(dugmeId); btn.disabled = true; durum(durumId, bekleMetni);
+    try { await is(); durum(durumId, ""); }
+    catch (e) {
+      if (e && e.code === "cancelled") { durum(durumId, ""); return; }
+      durum(durumId, hataMetni(e), true);
+      if (e && KALICI.has(e.code)) { sample = null; canliDurum(false, "canlı üretim kapalı · örnek"); return; }
+    } finally { if (sample) btn.disabled = false; }
+  }
+
+  function ornektenCik() { if (d.ornek) { d.ornek = false; $("ornekSerit").hidden = true; } }
+
+  $("bilgiDugme").addEventListener("click", () => calistir("bilgiDugme", "bilgiDurum", "Düşünüyor… (10–40 sn sürebilir)", async () => {
+    if (!d.konu.trim()) throw { code: "_bos" };
+    const istem = `Sen kısa video senaristi için bilgi kontrolü yapan dikkatli bir araştırmacısın.
+Aşağıdaki hayvan Shorts konusu için 4–6 kısa, doğru ve kontrol edilebilir bilgi öner. Bilgiler iki hayvan arasındaki farkları ya da şaşırtıcı bir gerçeği anlatsın.
+Kurallar:
+- Emin olmadığın hiçbir sayı ya da kesin iddia yazma. Emin değilsen sayıyı basitleştir ("neredeyse üç katı" gibi) ya da bilgiyi hiç yazma.
+- URL uydurma. Her bilgi için yalnızca nereden doğrulanabileceğini yaz (kurum adı ya da kaynak türü).
+- Bilgileri ${d.dil === "tr" ? "Türkçe" : "İngilizce"} yaz, her biri en fazla 25 kelime.
+
+${baglam()}
+
+Yalnızca şu biçimde bir JSON dizisi döndür:
+[{"bilgi": "...", "kontrol": "nereden doğrulanır", "guven": "yüksek" | "orta"}]`;
+    const sonuc = await sample.json(istem, { cache: false });
+    if (!Array.isArray(sonuc) || !sonuc.length) throw { code: "invalid_json" };
+    ornektenCik();
+    d.bilgiler = sonuc.filter((b) => b && b.bilgi).slice(0, 6).map((b) => ({
+      metin: String(b.bilgi), kontrol: String(b.kontrol || "") + (b.guven === "orta" ? " · güven: orta" : ""), onay: false,
+    }));
+    bilgileriCiz();
+  }));
+
+  $("kancaDugme").addEventListener("click", () => calistir("kancaDugme", "kancaDurum", "Kancalar yazılıyor… (20–60 sn sürebilir)", async () => {
+    const onayli = d.bilgiler.filter((b) => b.onay).map((b) => b.metin);
+    if (!onayli.length) throw { code: "_bilgi_yok" };
+    const plan = formulPlani(d.dil);
+    const fsatir = (f) => `- ${f.kod} (${f.ad}): ${f.kalip}. Örnek: "${f[d.dil]}". Bozulur: ${f.bozulur}.`;
+    const istem = `Sen Türkçe ve İngilizce hayvan Shorts kanalları için kanca (videonun ilk 1–3 saniyesinde söylenen cümle) yazan bir senaristsin.
+
+İYİ KANCA KURALLARI
+- İlk 1–2 saniyede konu belli olsun: hayvan adı ilk cümlede geçsin. Selamlama, "bugün", "bu videoda" yok.
+- Tek fikir, kısa cümle, somut isim. Zamirle başlama ("O aslında…").
+- İzleyiciye "sen" diye seslen (Türkçede sen/sana/sence ya da -sın/-abilirsin ekleri; İngilizcede you/your).
+- Bildiği şey (A) ile şaşırtıcı gerçeği (B) çarpıştır. Cevabı kancada verme ("çünkü", "yani" kancada olmasın). Cevap videonun sonunda gelir.
+- Belirsiz sıfat yok (inanılmaz, muhteşem, çılgın / amazing, insane, crazy). Yerine somut ayrıntı koy.
+- Türkçede konuşma dili kullan ("bildiğin", "gel gör ki", "bu eleman"); kitabi cümle kurma. Her cümle en fazla 12 kelime. Kanca toplam ${d.dil === "tr" ? "7–16" : "9–24"} kelime.
+- "Bu bir X değil." kalıbını yalnızca ilk kare bunu destekliyorsa kullan (ekranda X'e benzeyen hayvan varsa).
+- YALNIZCA aşağıdaki onaylı bilgileri kullan. Yeni sayı, "en …" iddiası ya da bilgi uydurma.
+
+ONAYLI BİLGİLER
+${onayli.map((b) => "- " + b).join("\n")}
+
+VİDEO
+${baglam()}
+
+FORMÜLLER (her kanca farklı bir formül kullansın; iki formül "+" ile birleşebilir, ör. TERS+IMKANSIZ)
+Öncelikli:
+${plan.oncelikli.map(fsatir).join("\n")}
+Keşif adayları (5 kancadan TAM OLARAK BİRİ bunlardan birini kullansın ve "kesif": true olsun):
+${plan.kesif.map(fsatir).join("\n")}
+
+GÖREV
+1) 5 kanca yaz (${d.dil === "tr" ? "Türkçe" : "İngilizce"}). Her biri için:
+   - "formul": kullandığın formül kodu (yukarıdaki kodlardan)
+   - "kesif": true/false
+   - "kanca": kancanın kendisi
+   - "buyut": kancadan hemen sonra gelecek "Çünkü…/Ama…" cümlesi (Because…/But…)
+   - "surpriz": videonun sonundaki "en ilginç kısmı" bilgisi, mümkünse kancadaki merakı kapatan
+   - "kapanis": yorum çağıran tek soru (kapışmada "Kapışsalar hangisi kazanır?" gibi; "abone ol" yok)
+2) 3 ekran üst başlığı: iki satır, "Satır 1 | *Vurgu satırı*" biçiminde, her satır 1–3 kelime.
+3) 1 YouTube başlığı: anahtar kelime başta, en fazla 40 karakter, sonda bir duygu ve bir konu emojisi.
+
+Yalnızca şu JSON nesnesini döndür:
+{"kancalar": [{"formul": "", "kesif": false, "kanca": "", "buyut": "", "surpriz": "", "kapanis": ""}], "ust_basliklar": ["", "", ""], "youtube_basligi": ""}`;
+    const s = await sample.json(istem, { cache: false });
+    if (!s || !Array.isArray(s.kancalar) || !s.kancalar.length) throw { code: "invalid_json" };
+    ornektenCik();
+    d.kancalar = s.kancalar.slice(0, 5).map((k) => ({
+      formul: String(k.formul || "?").toUpperCase(), kesif: !!k.kesif, kanca: String(k.kanca || ""),
+      buyut: String(k.buyut || ""), surpriz: String(k.surpriz || ""), kapanis: String(k.kapanis || ""),
+    }));
+    d.ustBasliklar = Array.isArray(s.ust_basliklar) ? s.ust_basliklar.slice(0, 3).map(String) : [];
+    d.ytBaslik = String(s.youtube_basligi || "");
+    d.secili = 0; d.ustSecili = 0; d.metin = [];
+    kullanimYaz(d.kancalar.flatMap((k) => k.formul.split("+")));
+    kancalariCiz(); basliklariCiz(); metniCiz(); onizlemeCiz();
+  }));
+
+  $("metinDugme").addEventListener("click", () => calistir("metinDugme", "metinDurum", "Metin yazılıyor… (20–60 sn sürebilir)", async () => {
+    const k = d.kancalar[d.secili]; if (!k) throw { code: "_kanca_yok" };
+    const onayli = d.bilgiler.filter((b) => b.onay).map((b) => b.metin);
+    const istem = `Bir hayvan Shorts videosu için seslendirme metni yaz (${d.dil === "tr" ? "Türkçe" : "İngilizce"}).
+
+ŞABLON (sırayla):
+- KANCA: aşağıdaki kanca, AYNEN
+- BÜYÜT: "Çünkü…" ya da "Ama…" ile meseleyi büyüten 1 cümle
+- FARK 1: "İlk fark…" + 1–2 kısa cümle
+- FARK 2: "İkinci fark…" + 1–2 kısa cümle
+- SÜRPRİZ: "Ve en ilginç kısmı…" + şaşırtıcı bilgi, mümkünse kancadaki merakın cevabı
+- KAPANIŞ: yorum çağıran tek soru
+KURALLAR: toplam 50–60 kelime (20–25 saniye). Cümleler en fazla 12 kelime, her cümlede görüntü değişecek. Konuşma dili ("bildiğin", "gel gör ki", "bu eleman"); kitabi cümle yok. "Abone ol" yok. YALNIZCA onaylı bilgileri kullan; yeni sayı ya da iddia uydurma.${d.dil === "en" ? ' İngilizcede "First difference…", "Second…", "And the craziest part…" kullan.' : ""}
+
+KANCA: ${k.kanca}
+Önerilen devam: ${k.buyut}
+Önerilen sürpriz: ${k.surpriz}
+Önerilen kapanış: ${k.kapanis}
+
+ONAYLI BİLGİLER
+${onayli.map((b) => "- " + b).join("\n")}
+
+${baglam()}
+
+Yalnızca şu JSON dizisini döndür (etiketler bu sırayla):
+[{"etiket": "KANCA", "metin": ""}, {"etiket": "BÜYÜT", "metin": ""}, {"etiket": "FARK 1", "metin": ""}, {"etiket": "FARK 2", "metin": ""}, {"etiket": "SÜRPRİZ", "metin": ""}, {"etiket": "KAPANIŞ", "metin": ""}]`;
+    const s = await sample.json(istem, { cache: false });
+    if (!Array.isArray(s) || !s.length) throw { code: "invalid_json" };
+    ornektenCik();
+    d.metin = s.filter((b) => b && b.metin).map((b) => ({ etiket: String(b.etiket || "").toLocaleUpperCase("tr"), metin: String(b.metin) }));
+    metniCiz();
+  }));
+
+  // ---------- Başlat ----------
+  if (!window.KancaPuan) { document.body.prepend("Puanlama yüklenemedi."); return; }
+  $("surumRozet").textContent = "kurallar " + FORMULLER.surum;
+  canliDurum(false, "canlı üretim kontrol ediliyor…");
+  hepsiniCiz();
+  const kullan = window.claude && typeof window.claude.use === "function" ? window.claude.use("sample") : Promise.resolve(null);
+  kullan.then((s) => {
+    sample = s;
+    canliDurum(!!s, s ? "canlı üretim açık · Claude" : "canlı üretim kapalı · örnek");
+  }).catch(() => canliDurum(false, "canlı üretim kapalı · örnek"));
+})();
+</script>
