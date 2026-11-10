@@ -102,6 +102,12 @@ prototip/build.py             kaynak.html + puanla.js + formuller.json → proto
 
 `arac/puanla.py` veya sözlükler değişirse `prototip/puanla.js`'yi de güncelle, eşlik kontrolünü çalıştır, sonra `python3 prototip/build.py`.
 
+**Web sitesi (Lovable):** proje `02304e3c-4eb6-4684-8bcc-100ca541e8c3` ("Kanca Üretici"), çalışma alanı `WVGN2gFgxuYnayg85fKD` (ücretsiz plan).
+- Editör: https://lovable.dev/projects/02304e3c-4eb6-4684-8bcc-100ca541e8c3
+- Puanlama motoru: `src/lib/puanla.js`, `prototip/puanla.js`'nin değiştirilmemiş kopyası. Biri değişirse öteki de aynen güncellenir. Lovable'a "dosyayı aynen koy" diye yüklenir, yeniden yazdırılmaz.
+- Henüz yayınlanmadı. Yayınlama yalnızca kullanıcı isteyince (`deploy_project`).
+- Her Lovable mesajı ücretsiz kredi harcar. Değişiklikleri tek, ayrıntılı mesajda topla.
+
 Teknoloji: Python 3, **yalnızca standart kütüphane** (kurulum yok). Veri CSV/JSONL. Sürümleme git ile.
 CSV'yi elle düzenleme, `arac/veri.py` üzerinden yaz.
 
@@ -135,7 +141,7 @@ CSV'yi elle düzenleme, `arac/veri.py` üzerinden yaz.
 - [ ] **Aşama 1 — Kullanım (4–6 hafta):** haftada 2–3 video, sonuçlar kullanıcıdan toplu. İlk `niş analizi`.
 - [ ] **Aşama 2 — İlk değerlendirme:** ~15–25 sonuçlu video + 1–2 niş analizi → ilk onaylı sürüm (v0.2). Puan ağırlıkları gerçek oranla karşılaştırılır, değişiklik öneri olarak sunulur.
 - [ ] **Aşama 3 — İngilizce:** İngilizce hayvan kanallarıyla niş analizi, İngilizce kuralları güçlendir.
-- [ ] **Aşama 4 — Ürün:** hesapsız, veri toplamayan basit web sayfası. Kullanıcı konuyu yazar, onaylı sürümle kanca alır. Ücretsiz barındırma. Yapay zekâ maliyeti için çözüm bu aşamada seçilir (ücretli bir şey önermeden önce sor). README'de kaynak gösterimi (youtube-agent-skill, MIT, Jake Schincariol; Kallaway).
+- [ ] **Aşama 4 — Ürün:** (iskelet hazır: Lovable sitesi, puanlama + tanıtım; üretim bağlı değil) hesapsız, veri toplamayan basit web sayfası. Kullanıcı konuyu yazar, onaylı sürümle kanca alır. Ücretsiz barındırma. Yapay zekâ maliyeti için çözüm bu aşamada seçilir (ücretli bir şey önermeden önce sor). README'de kaynak gösterimi (youtube-agent-skill, MIT, Jake Schincariol; Kallaway).
 - [ ] **Aşama 5 — Gelir:** freemium (aylık kanca hakkı). Ücretli planda niş analizi raporu ("senin nişinde ne tutuyor").
 
 Kapsam dışı: kendi kendine öğrenme (bilgi tabanı §14.4 bandit, §14.6 kullanıcı tercih modeli), kullanıcı verisi toplama, "YouTube'u bağla" / OAuth, §14.7 veri zehirlenmesi koruması, §14.10 KVKK işleri, hesaplar, TikTok/Instagram verisi.
@@ -150,3 +156,9 @@ Kapsam dışı: kendi kendine öğrenme (bilgi tabanı §14.4 bandit, §14.6 kul
 - 2026-11-07 — İngilizce kanca üretilir. Türkçe veri İngilizce kuralları değiştirmez.
 - 2026-11-07 — Doğrulanmış bilgileri Claude kaynak linkiyle araştırır, kullanıcı onaylar.
 - 2026-11-07 — "Kanca" çıktısı: sesli ilk cümle + ekran üst başlığı + tam örnek metin.
+- 2026-11-10 — Web sitesi Lovable'da. Renk 60–30–10:
+  - %60 açık zemin `#EEF1F4` / beyaz kartlar
+  - %30 lacivert `#14202B`
+  - %10 turuncu `#FF7A00`
+  - Başka renk yok.
+- 2026-11-10 — Site şimdilik yalnızca puanlıyor ve örnek gösteriyor; "Konudan kanca üret" bölümü "Yakında" ve kapalı (0 TL). Yapay zekâ ile üretimin maliyet kararı hâlâ açık (Aşama 4).
