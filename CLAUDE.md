@@ -102,13 +102,19 @@ prototip/build.py             kaynak.html + puanla.js + formuller.json → proto
 
 `arac/puanla.py` veya sözlükler değişirse `prototip/puanla.js`'yi de güncelle, eşlik kontrolünü çalıştır, sonra `python3 prototip/build.py`.
 
-**Web sitesi (Lovable):** proje `02304e3c-4eb6-4684-8bcc-100ca541e8c3` ("Kanca Üretici"), çalışma alanı `WVGN2gFgxuYnayg85fKD` (ücretsiz plan).
+**Web sitesi (Framer, ANA SİTE):** proje `MhCH699DtueRx27j1bIh` ("Kanca Üretici v2"), ücretsiz **Meo** şablonundan remix edildi, çalışma alanı "EkoP's Workspace" (ücretsiz plan). Henüz yayınlanmadı; yalnızca kullanıcı "yayınla" deyince.
+- Editör: https://framer.com/projects/MhCH699DtueRx27j1bIh
+- Bölümler: Giriş + araç (`#arac`), Nasıl çalışır (`#nasil`), Puan neyi ölçer (`#puan`), SSS (`#sss`), alt bilgi, Türkçe 404. Terms ve Style Guide sayfaları taslak.
+- Araç: `KancaArac.tsx` + `Puanla.tsx` (= `prototip/puanla.js` + dışa aktarma satırı).
+- Bilinen kalıntı: şablonun eklentiyle yönetilen "API Plugin" özel kodu (Meo arama motoru bilgisi) salt okunur; kullanıcı Site Ayarları → Custom Code'dan silmeli. Editör önizlemesindeki "Chat with Creator" balonu projede yok (şablon yaratıcısının Framer araç eklentisi; yayında kontrol edilecek).
+
+**Web sitesi (Lovable, ASKIDA — kredi harcanmaz):** proje `02304e3c-4eb6-4684-8bcc-100ca541e8c3` ("Kanca Üretici"), çalışma alanı `WVGN2gFgxuYnayg85fKD` (ücretsiz plan).
 - Editör: https://lovable.dev/projects/02304e3c-4eb6-4684-8bcc-100ca541e8c3
 - Puanlama motoru: `src/lib/puanla.js`, `prototip/puanla.js`'nin değiştirilmemiş kopyası. Biri değişirse öteki de aynen güncellenir. Lovable'a "dosyayı aynen koy" diye yüklenir, yeniden yazdırılmaz.
 - Henüz yayınlanmadı. Yayınlama yalnızca kullanıcı isteyince (`deploy_project`).
 - Her Lovable mesajı ücretsiz kredi harcar. Değişiklikleri tek, ayrıntılı mesajda topla.
 
-**Web sitesi (Framer, karşılaştırma için):** proje `4wAFEixi6Y7ThvcLhjUn` ("Kanca Üretici"), çalışma alanı "EkoP's Workspace" (ücretsiz plan). Henüz yayınlanmadı.
+**Web sitesi (Framer v1, yedek):** proje `4wAFEixi6Y7ThvcLhjUn` ("Kanca Üretici"), çalışma alanı "EkoP's Workspace" (ücretsiz plan). Henüz yayınlanmadı.
 - Editör: https://framer.com/projects/4wAFEixi6Y7ThvcLhjUn
 - Lovable ile aynı tarif. Fark: Framer'da yapay zekâya tarif verilmez, site Framer araçlarıyla parça parça kurulur.
   - Durağan bölümler Framer düzenleyicisinde (sürükle-bırakla düzenlenebilir).
@@ -168,4 +174,5 @@ Kapsam dışı: kendi kendine öğrenme (bilgi tabanı §14.4 bandit, §14.6 kul
   - %30 lacivert `#14202B`
   - %10 turuncu `#FF7A00`
   - Başka renk yok.
+- 2026-11-13 — Ana site Framer ("Kanca Üretici v2", ücretsiz Meo şablonu). Lovable askıda. Higgsfield bağlanınca görsel/video üretimi için kullanılacak (henüz bağlı değil).
 - 2026-11-10 — Site şimdilik yalnızca puanlıyor ve örnek gösteriyor; "Konudan kanca üret" bölümü "Yakında" ve kapalı (0 TL). Yapay zekâ ile üretimin maliyet kararı hâlâ açık (Aşama 4).
