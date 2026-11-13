@@ -108,6 +108,13 @@ prototip/build.py             kaynak.html + puanla.js + formuller.json → proto
 - Henüz yayınlanmadı. Yayınlama yalnızca kullanıcı isteyince (`deploy_project`).
 - Her Lovable mesajı ücretsiz kredi harcar. Değişiklikleri tek, ayrıntılı mesajda topla.
 
+**Web sitesi (Framer, karşılaştırma için):** proje `4wAFEixi6Y7ThvcLhjUn` ("Kanca Üretici"), çalışma alanı "EkoP's Workspace" (ücretsiz plan). Henüz yayınlanmadı.
+- Editör: https://framer.com/projects/4wAFEixi6Y7ThvcLhjUn
+- Lovable ile aynı tarif. Fark: Framer'da yapay zekâya tarif verilmez, site Framer araçlarıyla parça parça kurulur.
+  - Durağan bölümler Framer düzenleyicisinde (sürükle-bırakla düzenlenebilir).
+  - Araç `KancaArac.tsx` kod bileşeni; puanlama motoru `Puanla.tsx` = `prototip/puanla.js` + dışa aktarma satırı. Motor GitHub'dan çekildi, SHA-256 aynı.
+- Ekran boyutları: Desktop (≥1200px) ve Telefon (<1200px). "Hopeful Home" projesine dokunulmadı.
+
 Teknoloji: Python 3, **yalnızca standart kütüphane** (kurulum yok). Veri CSV/JSONL. Sürümleme git ile.
 CSV'yi elle düzenleme, `arac/veri.py` üzerinden yaz.
 
