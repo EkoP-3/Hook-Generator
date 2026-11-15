@@ -1,5 +1,21 @@
 # Site görselleri (Higgsfield)
 
+## Güncel (2026-11-15, ikinci tur): konuyla ilgili görseller
+
+Kullanıcı kararı: hayvan görseli yok, görseller kanca / kısa video konusuyla ilgili olsun. Maliyet 5 × 0,25 = 1,25 kredi (toplam ≈ 2,75).
+
+| # | Kullanıldığı yer | Oran | Dosya | İstem (özet) |
+|---|---|---|---|---|
+| A | Giriş arka planı (parallax, %40 opaklık) | 16:9 | `hf_20261115_161957_6bc2ff09-30a3-4281-9c81-915ddc057713.png` | Açık gri zemin, sağda elde dikey video oynayan telefon, turuncu ilerleme çubuğu |
+| B | Kart 1 "Konunu yaz" | 4:3 | `hf_20261115_161957_90a7941a-3e3a-4eeb-b524-232edbb74d54.png` | Telefon klavyesinde yazan eller, turuncu imleç |
+| C | Kart 2 "5 farklı kanca" | 4:3 | `hf_20261115_161956_183d843d-fa58-4cf5-a4a2-63d053793767.png` | Lacivert zeminde sıra halinde 5 turuncu olta iğnesi |
+| D | Kart 3 "0–100 puan" | 4:3 | `hf_20261115_161956_6981f2bf-07f4-4d0c-8c04-66ee5b240e08.png` | Lacivert gösterge, turuncu ibre |
+| E | Paylaşım görseli (og) | 16:9 | `hf_20261115_161957_be6e6e08-2bb3-48d0-9998-e4b844f5507d.png` | Telefon ekranına takılmış turuncu olta iğnesi, lacivert zemin |
+
+Favicon ilk turdan (#5) kalıyor. Aşağıdaki ilk turun 0–4 numaralı hayvan görselleri artık kullanılmıyor.
+
+## İlk tur (kullanılmıyor, favicon hariç)
+
 Üretim: 2026-11-15, model `gpt_image_2_6`, krediyle (deneme hakkı Claude Code'da geçmiyor).
 Maliyet: 6 × 0,25 = **1,5 kredi**. Sınır: kullanıcı onayı olmadan 10 krediyi geçme.
 Adres kökü: `https://d8j0ntlcm91z4.cloudfront.net/user_3FGKJwZUjhiRbNVK5hXtKOrbtvB/`

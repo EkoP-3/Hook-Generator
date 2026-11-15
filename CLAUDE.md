@@ -106,7 +106,7 @@ prototip/build.py             kaynak.html + puanla.js + formuller.json → proto
 - Editör: https://framer.com/projects/MhCH699DtueRx27j1bIh
 - Bölümler: Giriş + araç (`#arac`), Nasıl çalışır (`#nasil`), Puan neyi ölçer (`#puan`), SSS (`#sss`), alt bilgi, Türkçe 404. Terms ve Style Guide sayfaları taslak.
 - Araç: `KancaArac.tsx` + `Puanla.tsx` (= `prototip/puanla.js` + dışa aktarma satırı).
-- Görseller Higgsfield'dan (`docs/gorseller.md`): giriş arka planı (parallax), 3 kart görseli, paylaşım görseli, favicon.
+- Görseller Higgsfield'dan (`docs/gorseller.md`): giriş arka planı (parallax), 3 kart görseli, paylaşım görseli, favicon. Site görselleri kanca/kısa video konusuyla ilgili olur; hayvan görseli kullanılmaz (kullanıcı kararı, 2026-11-15).
 - Bilinen kalıntı: şablonun eklentiyle yönetilen "API Plugin" özel kodu (Meo arama motoru bilgisi) salt okunur; kullanıcı Site Ayarları → Custom Code'dan silmeli. Editör önizlemesindeki "Chat with Creator" balonu projede yok (şablon yaratıcısının Framer araç eklentisi; yayında kontrol edilecek).
 
 **Web sitesi (Lovable, ASKIDA — kredi harcanmaz):** proje `02304e3c-4eb6-4684-8bcc-100ca541e8c3` ("Kanca Üretici"), çalışma alanı `WVGN2gFgxuYnayg85fKD` (ücretsiz plan).
