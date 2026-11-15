@@ -106,6 +106,7 @@ prototip/build.py             kaynak.html + puanla.js + formuller.json → proto
 - Editör: https://framer.com/projects/MhCH699DtueRx27j1bIh
 - Bölümler: Giriş + araç (`#arac`), Nasıl çalışır (`#nasil`), Puan neyi ölçer (`#puan`), SSS (`#sss`), alt bilgi, Türkçe 404. Terms ve Style Guide sayfaları taslak.
 - Araç: `KancaArac.tsx` + `Puanla.tsx` (= `prototip/puanla.js` + dışa aktarma satırı).
+- Görseller Higgsfield'dan (`docs/gorseller.md`): giriş arka planı (parallax), 3 kart görseli, paylaşım görseli, favicon.
 - Bilinen kalıntı: şablonun eklentiyle yönetilen "API Plugin" özel kodu (Meo arama motoru bilgisi) salt okunur; kullanıcı Site Ayarları → Custom Code'dan silmeli. Editör önizlemesindeki "Chat with Creator" balonu projede yok (şablon yaratıcısının Framer araç eklentisi; yayında kontrol edilecek).
 
 **Web sitesi (Lovable, ASKIDA — kredi harcanmaz):** proje `02304e3c-4eb6-4684-8bcc-100ca541e8c3` ("Kanca Üretici"), çalışma alanı `WVGN2gFgxuYnayg85fKD` (ücretsiz plan).
@@ -175,4 +176,5 @@ Kapsam dışı: kendi kendine öğrenme (bilgi tabanı §14.4 bandit, §14.6 kul
   - %10 turuncu `#FF7A00`
   - Başka renk yok.
 - 2026-11-13 — Ana site Framer ("Kanca Üretici v2", ücretsiz Meo şablonu). Lovable askıda. Higgsfield bağlanınca görsel/video üretimi için kullanılacak (henüz bağlı değil).
+- 2026-11-15 — Higgsfield bağlı (MCP). Site Higgsfield'da kurulmaz (her kayıt anında herkese açık). Yalnızca görsel üretimi. Claude Code'da deneme hakkı geçmiyor, üretim krediyle: kullanıcı onayı olmadan 10 krediyi geçme. Film (~70 kredi) şimdilik yok.
 - 2026-11-10 — Site şimdilik yalnızca puanlıyor ve örnek gösteriyor; "Konudan kanca üret" bölümü "Yakında" ve kapalı (0 TL). Yapay zekâ ile üretimin maliyet kararı hâlâ açık (Aşama 4).
