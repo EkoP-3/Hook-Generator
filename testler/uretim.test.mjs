@@ -152,6 +152,16 @@ test("sunucu: Gemini kotası dolunca 503 kota", async () => {
   assert.equal((await r.json()).hata, "kota");
 });
 
+test("derlenmiş dosya: aynı yanıtı verir", async () => {
+  const { default: derli } = await import("../sunucu/dagitim.mjs");
+  const o = sahteOrtam(iyiGemini);
+  const r = await derli.fetch(istek({ konu: "Kurt mu husky mi?", dil: "tr" }), o.env);
+  assert.equal(r.status, 200);
+  assert.equal((await r.json()).kancalar.length, 5);
+  const govde = JSON.parse(o.cagrilar[0].opt.body);
+  assert.match(govde.contents[0].parts[0].text, /Konu: Kurt mu husky mi\?/);
+});
+
 test("sunucu: tarayıcı ön kontrolü (OPTIONS) izinli siteye açık", async () => {
   const o = sahteOrtam(iyiGemini);
   const r = await sunucu.fetch(new Request("https://x.workers.dev/uret", { method: "OPTIONS", headers: { origin: "https://kanca.framer.website" } }), o.env);

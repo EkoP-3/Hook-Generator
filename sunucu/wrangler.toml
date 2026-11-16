@@ -2,7 +2,7 @@
 # Gizli ayarlar (anahtarlar) bu dosyaya YAZILMAZ; Cloudflare panelinden ya da
 # `wrangler secret put GEMINI_ANAHTAR` / `wrangler secret put TUZ` ile girilir.
 name = "kanca-uretici"
-main = "worker.mjs"
+main = "dagitim.mjs"
 compatibility_date = "2026-11-01"
 
 [vars]

@@ -97,7 +97,12 @@ veri/nis/<YYYY-MM>.csv        aylık niş analizi
 veri/ham/                     ham referans veri (vidIQ, 2026-11-07)
 prototip/kaynak.html          web sitesi prototipi (Aşama 4 için deneme; Claude üretimini sayfa içinden çağırır)
 prototip/puanla.js            arac/puanla.py'nin tarayıcı sürümü (Python ile birebir aynı sonuç vermeli)
-prototip/build.py             kaynak.html + puanla.js + formuller.json → prototip/index.html
+prototip/build.py             kaynak.html + puanla.js + istem.js + formuller.json → prototip/index.html
+prototip/istem.js             yapay zekâ istemi (prototip ve sunucu ortak)
+prototip/kalip.js             yapay zekâsız yedek kanca üretici (Framer'da Kalip.tsx)
+prototip/framer/KancaArac.tsx Framer araç bileşeninin kopyası
+sunucu/worker.mjs             aracı sunucu (Cloudflare Worker → Gemini); derle.py → dagitim.mjs
+docs/kurulum-uretim.md        üretim kurulumu (hesaplar, anahtarlar, adımlar)
 ```
 
 `arac/puanla.py` veya sözlükler değişirse `prototip/puanla.js`'yi de güncelle, eşlik kontrolünü çalıştır, sonra `python3 prototip/build.py`.
@@ -177,4 +182,5 @@ Kapsam dışı: kendi kendine öğrenme (bilgi tabanı §14.4 bandit, §14.6 kul
   - Başka renk yok.
 - 2026-11-13 — Ana site Framer ("Kanca Üretici v2", ücretsiz Meo şablonu). Lovable askıda. Higgsfield bağlanınca görsel/video üretimi için kullanılacak (henüz bağlı değil).
 - 2026-11-15 — Higgsfield bağlı (MCP). Site Higgsfield'da kurulmaz (her kayıt anında herkese açık). Yalnızca görsel üretimi. Claude Code'da deneme hakkı geçmiyor, üretim krediyle: kullanıcı onayı olmadan 10 krediyi geçme. Film (~70 kredi) şimdilik yok.
-- 2026-11-10 — Site şimdilik yalnızca puanlıyor ve örnek gösteriyor; "Konudan kanca üret" bölümü "Yakında" ve kapalı (0 TL). Yapay zekâ ile üretimin maliyet kararı hâlâ açık (Aşama 4).
+- 2026-11-10 — Site şimdilik yalnızca puanlıyor ve örnek gösteriyor; "Konudan kanca üret" bölümü "Yakında" ve kapalı (0 TL). (2026-11-16 kararıyla değişti.)
+- 2026-11-16 — **Üretim modeli: karma (rakip sitelerdeki gibi).** Hesapsız; ziyaretçiye günde 3 yapay zekâ hakkı (Cloudflare Worker ücretsiz + Gemini ücretsiz katman). Hak/kota bitince ya da sunucu yoksa yapay zekâsız kalıp üretici. Konu saklanmaz; Gemini'ye gittiği SSS'de yazıyor. Kurulum: `docs/kurulum-uretim.md`.
