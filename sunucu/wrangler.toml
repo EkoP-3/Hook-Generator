@@ -1,0 +1,19 @@
+# Kanca Üretici aracı sunucusu — Cloudflare Workers ücretsiz plan.
+# Gizli ayarlar (anahtarlar) bu dosyaya YAZILMAZ; Cloudflare panelinden ya da
+# `wrangler secret put GEMINI_ANAHTAR` / `wrangler secret put TUZ` ile girilir.
+name = "kanca-uretici"
+main = "worker.mjs"
+compatibility_date = "2026-11-01"
+
+[vars]
+# Framer sitesinin adres(ler)i, virgülle. Yayın adresi belli olunca güncellenir.
+IZINLI = "https://framer.com"
+GUNLUK_HAK = "3"
+MODEL = "gemini-flash-latest"
+
+[[kv_namespaces]]
+binding = "SAYAC"
+id = "KURULUMDA_DOLDURULACAK"
+
+[observability]
+enabled = false

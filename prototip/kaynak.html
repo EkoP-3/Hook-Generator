@@ -89,6 +89,9 @@ li {
 /*@@PUANLA@@*/
 </script>
 <script>
+/*@@ISTEM@@*/
+</script>
+<script>
 const FORMULLER = /*@@FORMULLER@@*/;
 </script>
 <script>
@@ -127,37 +130,7 @@ const FORMULLER = /*@@FORMULLER@@*/;
     try { const k = kullanim(); kodlar.forEach((x) => { k[x] = (k[x] || 0) + 1; }); localStorage.setItem(ANAHTAR, JSON.stringify(k)); } catch (e) { /* depolama kapalı */ }
   }
 
-  function istem(konu) {
-    const uygun = FORMULLER.formuller.filter((f) => f[dil]);
-    const k = kullanim();
-    const satir = (f) => `- ${f.kod} (${f.ad}): ${f.kalip}. Örnek: "${f[dil]}"`;
-    const oncelikli = uygun.filter((f) => f.oncelik === 1).map(satir).join("\n");
-    const kesif = uygun.filter((f) => f.oncelik === 2)
-      .sort((a, b) => (k[a.kod] || 0) - (k[b.kod] || 0) || a.kod.localeCompare(b.kod)).slice(0, 3).map(satir).join("\n");
-    const dilAdi = dil === "tr" ? "Türkçe" : "İngilizce";
-    return `Hayvan Shorts videoları için kanca yaz: videonun ilk 1–3 saniyesinde söylenen cümle.
-
-Konu: ${konu}
-Dil: ${dilAdi}
-
-KURALLAR
-- Konu ilk 1–2 saniyede belli olsun; hayvan adı ilk cümlede geçsin. Selam, "bugün", "bu videoda" yok.
-- Tek fikir, kısa cümle, somut isim. Zamirle başlama.
-- İzleyiciye "sen" diye seslen (Türkçede sen/sence/-sın/-abilirsin; İngilizcede you/your).
-- Bildiği şey ile şaşırtıcı gerçeği çarpıştır. Cevabı kancada verme ("çünkü", "yani" yok).
-- Belirsiz sıfat yok (inanılmaz, muhteşem, çılgın / amazing, insane, crazy).
-- Türkçede konuşma dili kullan, kitabi cümle kurma. Kanca ${dil === "tr" ? "7–16" : "9–24"} kelime.
-- HİÇ sayı yazma ve "en hızlı / en büyük" gibi üstünlük iddiası kurma. Yalnızca herkesçe bilinen, kesin doğru bilgilere dayan; emin değilsen iddia yerine soru ya da karşılaştırma kur.
-
-FORMÜLLER: 5 kanca, her biri farklı formül.
-Öncelikli:
-${oncelikli}
-Keşif (5 kancadan tam olarak biri bunlardan birini kullansın):
-${kesif}
-
-Yalnızca şu JSON'u döndür (${dilAdi}):
-{"kancalar": [{"formul": "KOD", "kanca": "..."}]}`;
-  }
+  const istem = (konu) => window.KancaIstem.istem(konu, dil, FORMULLER, kullanim());
 
   document.querySelectorAll(".dil button").forEach((b) => b.addEventListener("click", () => {
     dil = b.dataset.dil;

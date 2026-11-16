@@ -1,4 +1,4 @@
-"""Prototip sayfasını derler: kaynak.html + puanla.js + bilgi/formuller.json -> index.html
+"""Prototip sayfasını derler: kaynak.html + puanla.js + istem.js + bilgi/formuller.json -> index.html
 
 Kullanım: python3 prototip/build.py
 """
@@ -10,11 +10,13 @@ KOK = BURASI.parent
 
 sayfa = (BURASI / "kaynak.html").read_text(encoding="utf-8")
 puanla = (BURASI / "puanla.js").read_text(encoding="utf-8")
+istem = (BURASI / "istem.js").read_text(encoding="utf-8")
 formuller = json.loads((KOK / "bilgi" / "formuller.json").read_text(encoding="utf-8"))
 
-for isaret in ("/*@@PUANLA@@*/", "/*@@FORMULLER@@*/"):
+for isaret in ("/*@@PUANLA@@*/", "/*@@ISTEM@@*/", "/*@@FORMULLER@@*/"):
     assert sayfa.count(isaret) == 1, isaret
 sayfa = sayfa.replace("/*@@PUANLA@@*/", puanla.replace("</script", "<\\/script"))
+sayfa = sayfa.replace("/*@@ISTEM@@*/", istem.replace("</script", "<\\/script"))
 sayfa = sayfa.replace("/*@@FORMULLER@@*/", json.dumps(formuller, ensure_ascii=False).replace("</", "<\\/"))
 (BURASI / "index.html").write_text(sayfa, encoding="utf-8")
 print(f"prototip/index.html yazıldı ({len(sayfa.encode('utf-8')) // 1024} KB)")
