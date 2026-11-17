@@ -33,7 +33,7 @@ export function ilerleme(ust: number, yukseklik: number, pencere: number) {
 }
 
 /**
- * @framerSupportedLayoutWidth fixed
+ * @framerSupportedLayoutWidth any
  * @framerSupportedLayoutHeight auto
  */
 export default function KaydirFilm(props: Props) {
