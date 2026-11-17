@@ -1,5 +1,22 @@
 # Site görselleri (Higgsfield)
 
+## Güncel (2026-11-17): premium sürüm — sohbet uygulamasında deneme hakkıyla üretildi
+
+İstem: `docs/higgsfield-istem.md`. Kaynak dosyalar kullanıcıdan (arşiv), dönüştürülmüş halleri `site/medya/`.
+Framer'a GitHub raw adresinden `api.tree.assetReference` ile aktarıldı (mcp.framer.com yükleme adresi bu ortamda engelli).
+
+| Dosya (`site/medya/`) | Kaynak | Kullanıldığı yer | Not |
+|---|---|---|---|
+| film-yatay.mp4 / .jpg | hf_20261116_223646_58a0b9a0 (1280×720, 9 sn) | Giriş, `KaydirFilm` masaüstü | ffmpeg `-g 2 -crf 23`, sessiz, faststart |
+| film-dikey.mp4 / .jpg | hf_20261116_234159_945e9b25 (720×1280, 9 sn) | Giriş, `KaydirFilm` telefon (<810px) | aynı ayar |
+| dongu.mp4 / .jpg | hf_20261117_022121_fd8bce44 (1280×720, 6 sn) | "Puan neyi ölçer" arka planı, `ArkaVideo` | `-crf 24` |
+| logo-lacivert.png | hf_20261116_193003_a93263cc | Menü logosu, favicon, Apple simgesi | 512 px |
+| logo-parlak.png | hf_20261117_033038_4bbe154c (şeffaf) | Alt bilgi logosu | 512 px |
+| kapak.jpg | hf_20261117_043309_1b314d3e | Paylaşım görseli (og) | 1200×632 |
+
+Kullanılmayan: hf_20261116_203104_cc62c922 ve hf_20261116_213145_11add3d3 (filmlerin ilk kare görselleri; poster olarak videonun ilk karesi kullanıldı).
+
+
 ## Güncel (2026-11-15, ikinci tur): konuyla ilgili görseller
 
 Kullanıcı kararı: hayvan görseli yok, görseller kanca / kısa video konusuyla ilgili olsun. Maliyet 5 × 0,25 = 1,25 kredi (toplam ≈ 2,75).
