@@ -46,15 +46,22 @@ export default function KaydirFilm(props: Props) {
     const [dikey, setDikey] = React.useState(false)
     const [sabit, setSabit] = React.useState(tuval) // true: yalnız poster
 
+    // Telefon/masaüstü seçimi bileşenin kendi genişliğinden (Framer tuvalinde de doğru görünsün diye).
+    React.useEffect(() => {
+        const k = kap.current
+        if (!k || typeof ResizeObserver === "undefined") return
+        const g = new ResizeObserver(([e]) => setDikey(e.contentRect.width < 810))
+        g.observe(k)
+        return () => g.disconnect()
+    }, [])
+
     React.useEffect(() => {
         if (tuval) return
-        const dar = window.matchMedia("(max-width: 809px)")
         const az = window.matchMedia("(prefers-reduced-motion: reduce)")
-        const guncelle = () => { setDikey(dar.matches); setSabit(az.matches) }
+        const guncelle = () => setSabit(az.matches)
         guncelle()
-        dar.addEventListener("change", guncelle)
         az.addEventListener("change", guncelle)
-        return () => { dar.removeEventListener("change", guncelle); az.removeEventListener("change", guncelle) }
+        return () => az.removeEventListener("change", guncelle)
     }, [tuval])
 
     React.useEffect(() => {
