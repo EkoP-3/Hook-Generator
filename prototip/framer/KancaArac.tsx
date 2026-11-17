@@ -34,7 +34,8 @@ interface Props {
 }
 type Uretilen = { formul: string; kanca: string; skor: number }
 
-const kart: React.CSSProperties = { background: R.kart, border: "1px solid " + R.cizgi, borderRadius: 20, padding: 24, display: "flex", flexDirection: "column", gap: 16, minWidth: 0, boxSizing: "border-box", boxShadow: "0 1px 2px rgba(20,32,43,0.06), 0 8px 24px rgba(20,32,43,0.06)" }
+const GOLGE = "inset 0 1px 0 rgba(255,255,255,.9), 0 1px 1px rgba(20,32,43,.04), 0 4px 8px rgba(20,32,43,.05), 0 16px 32px -8px rgba(20,32,43,.10), 0 40px 64px -24px rgba(20,32,43,.16)"
+const kart: React.CSSProperties = { background: "linear-gradient(180deg, #FFFFFF 0%, #FBFCFD 100%)", border: "1px solid rgba(20,32,43,.08)", borderRadius: 24, padding: 28, display: "flex", flexDirection: "column", gap: 18, minWidth: 0, boxSizing: "border-box", boxShadow: GOLGE }
 const kucukBaslik: React.CSSProperties = { margin: 0, fontFamily: YAZI, fontWeight: 600, fontSize: 20, color: R.lacivert }
 const sayi: React.CSSProperties = { fontFamily: YAZI, fontWeight: 600, fontVariantNumeric: "tabular-nums" }
 const gizli: React.CSSProperties = { position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }
@@ -103,33 +104,55 @@ export default function KancaArac(props: Props) {
 
     return (
         <div style={{ ...style, width: "100%", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 420px), 1fr))", gap: 20, fontFamily: YAZI, color: R.lacivert, boxSizing: "border-box" }}>
-            <style>{".ka-odak:focus-visible{outline:3px solid #FF7A00;outline-offset:2px}@media (prefers-reduced-motion: reduce){.ka-cubuk{transition:none!important}}"}</style>
+            <style>{`
+                .ka-odak:focus-visible{outline:3px solid #FF7A00;outline-offset:2px}
+                .ka-satir{transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .18s,border-color .18s}
+                .ka-satir:hover{transform:translateY(-2px);border-color:rgba(255,122,0,.45)!important;box-shadow:0 2px 4px rgba(20,32,43,.05),0 12px 24px -12px rgba(20,32,43,.22)}
+                .ka-ana{transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .18s;background:linear-gradient(180deg,#FF8A1F 0%,#FF7A00 55%,#F06C00 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -2px 0 rgba(26,13,0,.12),0 1px 2px rgba(240,108,0,.35),0 8px 20px -6px rgba(240,108,0,.5)}
+                .ka-ana:hover:not(:disabled){transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -2px 0 rgba(26,13,0,.12),0 2px 4px rgba(240,108,0,.35),0 14px 28px -8px rgba(240,108,0,.6)}
+                .ka-ana:active:not(:disabled){transform:translateY(1px) scale(.98)}
+                .ka-girdi{transition:border-color .15s,box-shadow .15s}
+                .ka-girdi:focus{outline:none;border-color:#FF7A00!important;box-shadow:inset 0 1px 2px rgba(20,32,43,.06),0 0 0 4px rgba(255,122,0,.16)!important}
+                .ka-halka{transition:stroke-dashoffset .5s cubic-bezier(.2,.8,.2,1)}
+                @media (prefers-reduced-motion: reduce){.ka-cubuk,.ka-halka,.ka-satir,.ka-ana{transition:none!important}}
+            `}</style>
 
             <section ref={puanKarti} style={kart} aria-label="Kancanı puanla">
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
                     <h3 style={kucukBaslik}>Kancanı puanla</h3>
-                    <div role="group" aria-label="Dil" style={{ display: "inline-flex", border: "1px solid " + R.cizgi, borderRadius: 999, padding: 3, gap: 2 }}>
+                    <div role="group" aria-label="Dil" style={{ display: "inline-flex", border: "1px solid " + R.cizgi, borderRadius: 999, padding: 3, gap: 2, background: "#F7F9FA", boxShadow: "inset 0 1px 2px rgba(20,32,43,.06)" }}>
                         {(["tr", "en"] as const).map((l) => (
                             <button key={l} type="button" className="ka-odak" aria-pressed={dil === l} onClick={() => setDil(l)}
-                                style={{ border: 0, cursor: "pointer", borderRadius: 999, padding: "5px 14px", fontFamily: YAZI, fontWeight: 600, fontSize: 13, background: dil === l ? R.lacivert : "transparent", color: dil === l ? "#FFFFFF" : R.soluk }}>
+                                style={{ border: 0, cursor: "pointer", borderRadius: 999, padding: "5px 14px", fontFamily: YAZI, fontWeight: 600, fontSize: 13, background: dil === l ? R.lacivert : "transparent", color: dil === l ? "#FFFFFF" : R.soluk, boxShadow: dil === l ? "0 2px 6px -1px rgba(20,32,43,.35)" : "none" }}>
                                 {l.toUpperCase()}
                             </button>
                         ))}
                     </div>
                 </div>
                 <label htmlFor="ka-kanca" style={gizli}>Kancan</label>
-                <textarea id="ka-kanca" className="ka-odak" rows={3} value={metin} onChange={(e) => setMetin(e.target.value)}
+                <textarea id="ka-kanca" className="ka-odak ka-girdi" rows={3} value={metin} onChange={(e) => setMetin(e.target.value)}
                     placeholder="ör. Bu bir kurt değil. Ama genlerinde hâlâ kurt saklıyor."
-                    style={{ width: "100%", boxSizing: "border-box", resize: "vertical", border: "1px solid " + R.cizgi, borderRadius: 12, padding: 14, fontFamily: YAZI, fontSize: 16, lineHeight: 1.5, color: R.lacivert, background: "#F7F9FA" }} />
+                    style={{ width: "100%", boxSizing: "border-box", resize: "vertical", border: "1px solid " + R.cizgi, borderRadius: 14, padding: 16, fontFamily: YAZI, fontSize: 16, lineHeight: 1.5, color: R.lacivert, background: "#F7F9FA", boxShadow: "inset 0 1px 2px rgba(20,32,43,.06)" }} />
                 <div aria-live="polite" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                     {!sonuc ? (
                         <p style={{ margin: 0, color: R.soluk, fontSize: 15 }}>Bir kanca yaz ya da örneklerden birine tıkla; puanı burada görünsün.</p>
                     ) : (
                         <>
-                            <p style={{ margin: 0 }}>
-                                <span style={{ ...sayi, fontSize: 64, lineHeight: 1 }}>{Math.round(sonuc.skor)}</span>
-                                <span style={{ ...sayi, fontSize: 20, color: R.soluk, marginLeft: 8 }}>/ 100</span>
-                            </p>
+                            <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+                                <div style={{ position: "relative", width: 112, height: 112, flexShrink: 0, borderRadius: "50%", background: "radial-gradient(circle at 35% 30%, #FFFFFF 0%, #F1F4F7 70%)", boxShadow: "inset 0 1px 0 #fff, 0 10px 24px -10px rgba(20,32,43,.3), 0 2px 4px rgba(20,32,43,.06)" }}>
+                                    <svg viewBox="0 0 112 112" width="112" height="112" aria-hidden="true" style={{ position: "absolute", inset: 0 }}>
+                                        <defs>
+                                            <linearGradient id="ka-turuncu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#FF8A1F" /><stop offset="1" stopColor="#F06C00" /></linearGradient>
+                                        </defs>
+                                        <circle cx="56" cy="56" r="46" fill="none" stroke={R.ray} strokeWidth="9" />
+                                        <circle className="ka-halka" cx="56" cy="56" r="46" fill="none" stroke="url(#ka-turuncu)" strokeWidth="9" strokeLinecap="round"
+                                            strokeDasharray={2 * Math.PI * 46} strokeDashoffset={2 * Math.PI * 46 * (1 - Math.max(0, Math.min(100, sonuc.skor)) / 100)}
+                                            transform="rotate(-90 56 56)" style={{ filter: "drop-shadow(0 2px 4px rgba(240,108,0,.35))" }} />
+                                    </svg>
+                                    <span style={{ ...sayi, position: "absolute", inset: 0, display: "grid", placeItems: "center", fontSize: 36, letterSpacing: "-0.02em" }}>{Math.round(sonuc.skor)}</span>
+                                </div>
+                                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.5, color: R.soluk }}><span style={{ ...sayi, color: R.lacivert, fontSize: 16 }}>/ 100</span><br />0,6 × ortalama + 0,4 × en düşük</p>
+                            </div>
                             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                                 {ANAHTARLAR.map((k) => {
                                     const v = Math.round(sonuc.ozellikler[k])
@@ -163,9 +186,9 @@ export default function KancaArac(props: Props) {
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                     {ornekler.map(({ t, s }) => (
-                        <button key={t} type="button" className="ka-odak" onClick={() => { setMetin(t); setDil("tr") }}
-                            style={{ display: "flex", gap: 14, alignItems: "flex-start", textAlign: "left", cursor: "pointer", background: "#F7F9FA", border: "1px solid " + R.cizgi, borderRadius: 12, padding: 12, fontFamily: YAZI, fontSize: 14, lineHeight: 1.45, color: R.lacivert }}>
-                            <span style={{ ...sayi, fontSize: 17, width: 30, flexShrink: 0 }}>{s}</span>
+                        <button key={t} type="button" className="ka-odak ka-satir" onClick={() => { setMetin(t); setDil("tr") }}
+                            style={{ display: "flex", gap: 14, alignItems: "flex-start", textAlign: "left", cursor: "pointer", background: "#FFFFFF", border: "1px solid " + R.cizgi, borderRadius: 14, padding: 14, fontFamily: YAZI, fontSize: 14, boxShadow: "0 1px 2px rgba(20,32,43,.04)", lineHeight: 1.45, color: R.lacivert }}>
+                            <span style={{ ...sayi, fontSize: 15, minWidth: 40, height: 28, flexShrink: 0, display: "grid", placeItems: "center", borderRadius: 999, background: "rgba(255,122,0,.10)", color: R.lacivert, boxShadow: "inset 0 0 0 1px rgba(255,122,0,.25)" }}>{s}</span>
                             <span>{t}</span>
                         </button>
                     ))}
@@ -176,11 +199,11 @@ export default function KancaArac(props: Props) {
                 <h3 style={kucukBaslik}>Konudan kanca üret</h3>
                 <form onSubmit={uret} style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
                     <label htmlFor="ka-konu" style={gizli}>Konu</label>
-                    <input id="ka-konu" className="ka-odak" type="text" maxLength={120} value={konu} onChange={(e) => setKonu(e.target.value)}
+                    <input id="ka-konu" className="ka-odak ka-girdi" type="text" maxLength={120} value={konu} onChange={(e) => setKonu(e.target.value)}
                         placeholder="ör. Uykusuzluk beynine ne yapar?" autoComplete="off"
-                        style={{ flex: "1 1 240px", minWidth: 0, border: "1px solid " + R.cizgi, borderRadius: 12, padding: 12, fontFamily: YAZI, fontSize: 16, color: R.lacivert, background: "#F7F9FA" }} />
-                    <button type="submit" className="ka-odak" disabled={uretiliyor}
-                        style={{ border: 0, borderRadius: 999, padding: "12px 22px", background: uretiliyor ? R.ray : R.turuncu, color: uretiliyor ? R.soluk : R.turuncuUstu, fontFamily: YAZI, fontWeight: 600, fontSize: 15, cursor: uretiliyor ? "wait" : "pointer" }}>
+                        style={{ flex: "1 1 240px", minWidth: 0, border: "1px solid " + R.cizgi, borderRadius: 999, padding: "14px 20px", boxShadow: "inset 0 1px 2px rgba(20,32,43,.06)", fontFamily: YAZI, fontSize: 16, color: R.lacivert, background: "#F7F9FA" }} />
+                    <button type="submit" className="ka-odak ka-ana" disabled={uretiliyor}
+                        style={{ border: 0, borderRadius: 999, padding: "14px 26px", ...(uretiliyor ? { background: R.ray, boxShadow: "none" } : {}), color: uretiliyor ? R.soluk : R.turuncuUstu, fontFamily: YAZI, fontWeight: 600, fontSize: 15, cursor: uretiliyor ? "wait" : "pointer" }}>
                         {uretiliyor ? "Yazılıyor…" : "Kanca üret"}
                     </button>
                 </form>
@@ -188,9 +211,9 @@ export default function KancaArac(props: Props) {
                 <div aria-live="polite" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                     {bilgi && <p style={{ margin: 0, fontSize: 14, color: R.soluk }}>{bilgi}</p>}
                     {liste.map((x) => (
-                        <button key={x.kanca} type="button" className="ka-odak" onClick={() => sec(x.kanca)} title="Puan ayrıntısı için tıkla"
-                            style={{ display: "flex", gap: 14, alignItems: "flex-start", textAlign: "left", cursor: "pointer", background: "#F7F9FA", border: "1px solid " + R.cizgi, borderRadius: 12, padding: 12, fontFamily: YAZI, fontSize: 15, lineHeight: 1.45, color: R.lacivert }}>
-                            <span style={{ ...sayi, fontSize: 18, width: 32, flexShrink: 0 }}>{x.skor}</span>
+                        <button key={x.kanca} type="button" className="ka-odak ka-satir" onClick={() => sec(x.kanca)} title="Puan ayrıntısı için tıkla"
+                            style={{ display: "flex", gap: 14, alignItems: "flex-start", textAlign: "left", cursor: "pointer", background: "#FFFFFF", border: "1px solid " + R.cizgi, borderRadius: 14, padding: 14, fontFamily: YAZI, fontSize: 15, boxShadow: "0 1px 2px rgba(20,32,43,.04)", lineHeight: 1.45, color: R.lacivert }}>
+                            <span style={{ ...sayi, fontSize: 15, minWidth: 40, height: 28, flexShrink: 0, display: "grid", placeItems: "center", borderRadius: 999, background: "rgba(255,122,0,.10)", color: R.lacivert, boxShadow: "inset 0 0 0 1px rgba(255,122,0,.25)" }}>{x.skor}</span>
                             <span style={{ display: "flex", flexDirection: "column", gap: 2 }}>
                                 <span>{x.kanca}</span>
                                 <span style={{ fontSize: 12, color: R.soluk }}>{FORMUL_AD[x.formul] || x.formul}</span>
