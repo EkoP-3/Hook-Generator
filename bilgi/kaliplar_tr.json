@@ -1,0 +1,200 @@
+{
+ "surum": "v0.1",
+ "aciklama": "Kendi kanca motorunun Türkçe kalıp bankası (prototip/motor.js). Konu yalnızca eksiz kullanılır: 'hakkında', 'konusunda', 'ile', soru eki. Sayı ve üstünlük iddiası yok, cevap verilmez. Kalıplar kural sayılır; yalnızca onaylı sürümle değişir (bilgi/surumler.md).",
+ "kaliplar": {
+  "karsilastirma": [
+   {
+    "formul": "KARSILASTIRMA",
+    "kalip": "{A} {qA} {B} {qB}? Sen farkı bildiğini sanıyorsun ama yanılıyor olabilirsin."
+   },
+   {
+    "formul": "KARSILASTIRMA",
+    "kalip": "{A} {qA} {B} {qB}? Yanlış seçersen kaybeden sen olursun, peki hangisi?"
+   },
+   {
+    "formul": "KARSILASTIRMA",
+    "kalip": "Sence {A} {qA} {B} {qB}? Aradaki gerçek farkı çoğu kişi bilmiyor."
+   },
+   {
+    "formul": "TERS",
+    "kalip": "Sen {A} ile {B} aynı sanıyorsun ama gerçek hiç de öyle değil."
+   },
+   {
+    "formul": "TERS",
+    "kalip": "Sandığın gibi değil: {A} ile {B} arasındaki farkı sen de kaçırıyorsun."
+   },
+   {
+    "formul": "HITAP",
+    "kalip": "Sence {A} {qA} {B} {qB}? Cevabını aklında tut ama sakın değiştirme."
+   },
+   {
+    "formul": "HITAP",
+    "kalip": "Sen olsan hangisini seçerdin: {A} {qA} {B} {qB}? Cevabın seni ele verecek."
+   },
+   {
+    "formul": "SORU",
+    "kalip": "{A} {qA} {B} {qB}? Sence hangisi kazanır? Cevap tahmin ettiğin değil."
+   },
+   {
+    "formul": "SORU",
+    "kalip": "Peki sen {A} ile {B} arasındaki tek gerçek farkı biliyor musun?"
+   },
+   {
+    "formul": "UYARI",
+    "kalip": "{A} ile {B} arasında seçim yapmadan önce sakın bunu atlama, sen kaybedersin."
+   },
+   {
+    "formul": "UYARI",
+    "kalip": "Sakın {A} ile {B} aynı deme. Aradaki fark sandığın gibi değil."
+   },
+   {
+    "formul": "IFSA",
+    "kalip": "{A} ile {B} hakkında kimsenin sana söylemediği bir sır var."
+   },
+   {
+    "formul": "IFSA",
+    "kalip": "Sana {A} ile {B} hakkında kimsenin anlatmadığı gerçeği söyleyeceğim."
+   },
+   {
+    "formul": "HATA",
+    "kalip": "{A} ile {B} konusunda sen de aynı hatayı yapıyor olabilirsin. Sakın yapma."
+   },
+   {
+    "formul": "ONCE_SONRA",
+    "kalip": "{A} ile {B} farkını öğrendikten sonra sen onlara asla aynı gözle bakmayacaksın."
+   },
+   {
+    "formul": "LISTE",
+    "kalip": "{A} ile {B} farkını anlamanın birkaç yolu var ama sonuncusunu sen bile bilmiyorsun."
+   },
+   {
+    "formul": "KOKEN",
+    "kalip": "{A} ile {B} neden bu kadar farklı? Sen sandığın cevabı bırak."
+   }
+  ],
+  "soru": [
+   {
+    "formul": "SORU",
+    "kalip": "{S} Sen cevabı bildiğini sanıyorsun ama gerçek çok farklı."
+   },
+   {
+    "formul": "SORU",
+    "kalip": "{S} Peki sen gerçekten biliyor musun? Cevap sandığın gibi değil."
+   },
+   {
+    "formul": "TERS",
+    "kalip": "{S} Sana öğretilen cevap aslında doğru değil olabilir."
+   },
+   {
+    "formul": "TERS",
+    "kalip": "{S} Herkesin sandığı cevap değil. Sen bir daha düşün."
+   },
+   {
+    "formul": "HITAP",
+    "kalip": "{S} Sence cevabı ne? Aklında tut ama sakın değiştirme."
+   },
+   {
+    "formul": "HITAP",
+    "kalip": "{S} Cevabını şimdi söyle, sonra sen bile şaşıracaksın."
+   },
+   {
+    "formul": "UYARI",
+    "kalip": "{S} Cevabı bilmeden sakın bir karar verme, kaybeden sen olursun."
+   },
+   {
+    "formul": "UYARI",
+    "kalip": "{S} Bunu bilmezsen sen de kaybedebilirsin, ama çoğu kişi bilmiyor."
+   },
+   {
+    "formul": "IFSA",
+    "kalip": "{S} Sana kimsenin söylemediği gerçek cevap burada."
+   },
+   {
+    "formul": "IFSA",
+    "kalip": "{S} Bu sorunun cevabında sana anlatılmayan bir sır var."
+   },
+   {
+    "formul": "HATA",
+    "kalip": "{S} Bu soruda sen de aynı hatayı yapıyor olabilirsin. Sakın yapma."
+   },
+   {
+    "formul": "ONCE_SONRA",
+    "kalip": "{S} Gerçek cevabı öğrendikten sonra sen asla eskisi gibi bakmayacaksın."
+   },
+   {
+    "formul": "LISTE",
+    "kalip": "{S} Cevabın birkaç parçası var ama sonuncusunu sen bile tahmin edemezsin."
+   },
+   {
+    "formul": "KOKEN",
+    "kalip": "{S} Cevap sandığından çok daha eskiye dayanıyor olabilir, peki sen biliyor musun?"
+   },
+   {
+    "formul": "BASKASI",
+    "kalip": "{S} Bunu merak eden tek kişi sen değilsin, ama cevabı çok az kişi biliyor."
+   }
+  ],
+  "isim": [
+   {
+    "formul": "SORU",
+    "kalip": "{K} hakkında sen gerçekten ne biliyorsun? Cevap sandığın gibi değil."
+   },
+   {
+    "formul": "SORU",
+    "kalip": "Peki sen {K} hakkındaki gerçeği biliyor musun? Çoğu kişi bilmiyor."
+   },
+   {
+    "formul": "TERS",
+    "kalip": "{K} hakkında sana anlatılanlar aslında doğru değil olabilir."
+   },
+   {
+    "formul": "TERS",
+    "kalip": "Sen {K} konusunu bildiğini sanıyorsun ama gerçek hiç de öyle değil."
+   },
+   {
+    "formul": "HITAP",
+    "kalip": "{K} senin için önemliyse bunu sakın kaçırma, sonuna kadar izle."
+   },
+   {
+    "formul": "HITAP",
+    "kalip": "Sen de {K} konusunda bunu yapıyorsan hemen dur, sebebini göreceksin."
+   },
+   {
+    "formul": "KARSILASTIRMA",
+    "kalip": "{K} konusunda sen hangi taraftasın? Cevabın seni ele verecek."
+   },
+   {
+    "formul": "UYARI",
+    "kalip": "{K} hakkında bunu bilmeden sakın bir karar verme, kaybeden sen olursun."
+   },
+   {
+    "formul": "UYARI",
+    "kalip": "Sakın {K} konusunda acele etme. Gerçek sandığın gibi değil."
+   },
+   {
+    "formul": "IFSA",
+    "kalip": "{K} hakkında kimsenin sana söylemediği bir sır var."
+   },
+   {
+    "formul": "IFSA",
+    "kalip": "Sana {K} hakkında kimsenin anlatmadığı gerçeği söyleyeceğim."
+   },
+   {
+    "formul": "HATA",
+    "kalip": "{K} konusunda sen de aynı hatayı yapıyor olabilirsin. Sakın yapma."
+   },
+   {
+    "formul": "ONCE_SONRA",
+    "kalip": "{K} hakkındaki gerçeği öğrenince sen asla eskisi gibi bakmayacaksın."
+   },
+   {
+    "formul": "LISTE",
+    "kalip": "{K} hakkında bilmen gereken birkaç şey var ama sonuncusunu sen bile bilmiyorsun."
+   },
+   {
+    "formul": "KOKEN",
+    "kalip": "{K} nereden çıktı? Sen sandığın hikâyeyi bırak, gerçek başka."
+   }
+  ]
+ }
+}

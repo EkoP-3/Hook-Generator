@@ -1,52 +1,15 @@
-// Kanca üretimi testleri: kalıp üretici, istem metni, aracı sunucu.
-// Çalıştırma: node --test testler/  (ya da python3 -m unittest discover testler)
+// Aracı sunucu (askıda) ve istem metni testleri. Kendi motorumuzun testleri: motor.test.mjs.
+// Çalıştırma: node --test testler/*.test.mjs  (ya da python3 -m unittest discover testler)
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { readFileSync } from "node:fs";
 
 const require = createRequire(import.meta.url);
-const KancaKalip = require("../prototip/kalip.js");
 const KancaIstem = require("../prototip/istem.js");
 const KancaPuan = require("../prototip/puanla.js");
 const FORMULLER = JSON.parse(readFileSync(new URL("../bilgi/formuller.json", import.meta.url), "utf-8"));
 const { dogrula, default: sunucu } = await import("../sunucu/worker.mjs");
-
-const KONULAR = {
-  tr: ["Kurt mu husky mi?", "Uykusuzluk beynine ne yapar", "  İstanbul'da en ucuz kahve  "],
-  en: ["Wolf or husky?", "what sleep loss does to your brain"],
-};
-
-test("kalıp: her dilde 5 kanca, 5 farklı formül, hepsi konuyu içerir", () => {
-  for (const dil of ["tr", "en"]) for (const konu of KONULAR[dil]) {
-    const k = KancaKalip.uret(konu, dil, FORMULLER);
-    assert.equal(k.length, 5, konu);
-    assert.equal(new Set(k.map((x) => x.formul)).size, 5, konu);
-    for (const x of k) {
-      assert.ok(x.kanca.includes(konu.trim().replace(/[.?!]+$/, "")), x.kanca);
-      assert.ok(FORMULLER.formuller.some((f) => f.kod === x.formul), x.formul);
-    }
-  }
-});
-
-test("kalıp: sayı ve üstünlük iddiası uydurmaz", () => {
-  for (const dil of ["tr", "en"]) {
-    const k = KancaKalip.uret("Konu", dil, FORMULLER);
-    for (const x of k) assert.doesNotMatch(x.kanca.replace("Konu", ""), /\d|\ben\s|\bmost\b|\best\b/i, x.kanca);
-  }
-});
-
-test("kalıp: karşılaştırma konusunda KARSILASTIRMA kullanılır", () => {
-  assert.ok(KancaKalip.uret("Kurt mu husky mi?", "tr", FORMULLER).some((x) => x.formul === "KARSILASTIRMA"));
-  assert.ok(KancaKalip.uret("Wolf or husky?", "en", FORMULLER).some((x) => x.formul === "KARSILASTIRMA"));
-});
-
-test("kalıp: puanlanabilir (motor hata vermez)", () => {
-  for (const x of KancaKalip.uret("Uykusuzluk beynine ne yapar", "tr", FORMULLER)) {
-    const p = KancaPuan.puanla(x.kanca, "tr");
-    assert.ok(p.skor >= 0 && p.skor <= 100);
-  }
-});
 
 test("istem: konu, dil ve öncelikli formüller metinde", () => {
   const m = KancaIstem.istem("Kurt mu husky mi?", "tr", FORMULLER, {});

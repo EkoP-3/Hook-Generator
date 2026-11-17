@@ -1,0 +1,188 @@
+{
+ "surum": "v0.1",
+ "aciklama": "English template bank for the hook engine (prototip/motor.js). No numbers, no superlatives, no answers. Templates are rules; they change only with an approved version (bilgi/surumler.md).",
+ "kaliplar": {
+  "karsilastirma": [
+   {
+    "formul": "KARSILASTIRMA",
+    "kalip": "{A} or {B}? You think you know the difference, but you're probably wrong."
+   },
+   {
+    "formul": "KARSILASTIRMA",
+    "kalip": "{A} or {B}? Pick the wrong one and you lose. So which is it?"
+   },
+   {
+    "formul": "TERS",
+    "kalip": "You think {A} and {B} are basically the same, but they're actually not."
+   },
+   {
+    "formul": "TERS",
+    "kalip": "Everything you think you know about {A} and {B} is not the whole story."
+   },
+   {
+    "formul": "HITAP",
+    "kalip": "{A} or {B}? Lock in your answer now, but don't change it later."
+   },
+   {
+    "formul": "HITAP",
+    "kalip": "Be honest: would you pick {A} or {B}? Your answer says more than you think."
+   },
+   {
+    "formul": "SORU",
+    "kalip": "{A} or {B}? Which one actually wins? It's not the one you expect."
+   },
+   {
+    "formul": "SORU",
+    "kalip": "Do you actually know the one real difference between {A} and {B}?"
+   },
+   {
+    "formul": "UYARI",
+    "kalip": "Never choose between {A} and {B} before you know this one secret."
+   },
+   {
+    "formul": "UYARI",
+    "kalip": "Stop calling {A} and {B} the same thing. You're missing the real difference."
+   },
+   {
+    "formul": "IFSA",
+    "kalip": "Nobody tells you this secret about {A} and {B}, but you should know it."
+   },
+   {
+    "formul": "HATA",
+    "kalip": "You might be making the same mistake with {A} and {B}. Stop before it's too late."
+   },
+   {
+    "formul": "ONCE_SONRA",
+    "kalip": "Once you see the real difference between {A} and {B}, you'll never unsee it."
+   },
+   {
+    "formul": "LISTE",
+    "kalip": "There are a few ways to tell {A} from {B}, but you won't even guess the last one."
+   },
+   {
+    "formul": "KOKEN",
+    "kalip": "Why are {A} and {B} actually so different? It's not what you think."
+   }
+  ],
+  "soru": [
+   {
+    "formul": "SORU",
+    "kalip": "{S} You think you know the answer, but the truth isn't what you expect."
+   },
+   {
+    "formul": "SORU",
+    "kalip": "{S} Do you actually know? The real answer might surprise even you."
+   },
+   {
+    "formul": "TERS",
+    "kalip": "{S} The answer you were taught is actually not the whole story."
+   },
+   {
+    "formul": "TERS",
+    "kalip": "{S} It's not what everyone thinks. You need to hear this before you decide."
+   },
+   {
+    "formul": "HITAP",
+    "kalip": "{S} Lock in your guess now, but don't change it until the end."
+   },
+   {
+    "formul": "HITAP",
+    "kalip": "{S} Say your answer out loud, then watch. You'll be surprised."
+   },
+   {
+    "formul": "UYARI",
+    "kalip": "{S} Never decide anything before you hear the real answer."
+   },
+   {
+    "formul": "UYARI",
+    "kalip": "{S} Stop guessing. You could lose more than you think if you get this wrong."
+   },
+   {
+    "formul": "IFSA",
+    "kalip": "{S} There's a secret part of the answer nobody tells you about."
+   },
+   {
+    "formul": "IFSA",
+    "kalip": "{S} Here's the real answer nobody actually tells you."
+   },
+   {
+    "formul": "HATA",
+    "kalip": "{S} You're probably making the same mistake everyone makes. Stop before it costs you."
+   },
+   {
+    "formul": "ONCE_SONRA",
+    "kalip": "{S} Once you know the real answer, you'll never see it the same way."
+   },
+   {
+    "formul": "LISTE",
+    "kalip": "{S} The answer has a few parts, but you won't even guess the last one."
+   },
+   {
+    "formul": "KOKEN",
+    "kalip": "{S} The real answer goes back further than you think. Do you actually know it?"
+   },
+   {
+    "formul": "BASKASI",
+    "kalip": "{S} You're not the only one wondering, but only a few people actually know."
+   }
+  ],
+  "isim": [
+   {
+    "formul": "SORU",
+    "kalip": "What do you actually know about {K}? The truth isn't what you think."
+   },
+   {
+    "formul": "SORU",
+    "kalip": "Do you really know the truth about {K}? A lot of it isn't what you expect."
+   },
+   {
+    "formul": "TERS",
+    "kalip": "Everything you think you know about {K} might actually be wrong."
+   },
+   {
+    "formul": "TERS",
+    "kalip": "You think you understand {K}, but the real story is not what you were told."
+   },
+   {
+    "formul": "HITAP",
+    "kalip": "If {K} matters to you, don't skip this. Watch until the very end."
+   },
+   {
+    "formul": "HITAP",
+    "kalip": "If you're doing this with {K}, you need to stop right now. Here's why."
+   },
+   {
+    "formul": "KARSILASTIRMA",
+    "kalip": "When it comes to {K}, which side are you on? Your answer says a lot."
+   },
+   {
+    "formul": "UYARI",
+    "kalip": "Never make a decision about {K} before you know this one secret."
+   },
+   {
+    "formul": "UYARI",
+    "kalip": "Stop rushing into {K}. You could lose more than you think."
+   },
+   {
+    "formul": "IFSA",
+    "kalip": "Nobody tells you this secret about {K}, but you deserve to know."
+   },
+   {
+    "formul": "HATA",
+    "kalip": "You might be making the same mistake with {K} as everyone else. Stop now."
+   },
+   {
+    "formul": "ONCE_SONRA",
+    "kalip": "Once you learn this about {K}, you'll never see it the same way again."
+   },
+   {
+    "formul": "LISTE",
+    "kalip": "There are a few things you should know about {K}, but you won't guess the last one."
+   },
+   {
+    "formul": "KOKEN",
+    "kalip": "Where did {K} even come from? The real story is not what you think."
+   }
+  ]
+ }
+}

@@ -1,18 +1,17 @@
 import * as React from "react"
 import { addPropertyControls, ControlType } from "framer"
 import { KancaPuan } from "./Puanla.tsx"
-import { KancaKalip } from "./Kalip.tsx"
+import { KancaMotor, KALIPLAR, FORMULLER } from "./Motor.tsx"
 
 // Framer kod bileşeni: kanca puanlama + konudan kanca üretme.
-// Depodaki kopya: prototip/framer/KancaArac.tsx. Puanla.tsx = prototip/puanla.js, Kalip.tsx = prototip/kalip.js.
-// Üretim: önce aracı sunucu (sunucu/worker.mjs, Gemini); hak/kota bitince ya da sunucu yoksa kalıp üretici.
+// Depodaki kopya: prototip/framer/KancaArac.tsx. Puanla.tsx = prototip/puanla.js, Motor.tsx = prototip/framer/derle.py çıktısı.
+// Üretim: kendi motorumuz (prototip/motor.js), tamamen tarayıcıda; konu hiçbir yere gönderilmez.
 
 const R = { kart: "#FFFFFF", cizgi: "#D5DCE3", soluk: "#5A6875", lacivert: "#14202B", turuncu: "#FF7A00", turuncuUstu: "#1A0D00", ray: "#E4E9EE" }
 const YAZI = "'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif"
 const ETIKET = { specificity: "Somutluk", address: "Hitap", stakes: "Risk", curiosity: "Merak", brevity: "Kısalık" }
 const ANAHTARLAR = ["specificity", "address", "stakes", "curiosity", "brevity"]
 const FORMUL_AD = {"KARSILASTIRMA": "Karşılaştırma", "TERS": "Tersine çevirme", "IMKANSIZ": "İmkânsız iddia", "HITAP": "Doğrudan hitap", "ENLER": "En'ler", "ISTATISTIK": "İstatistik", "SORU": "Soru", "IFSA": "İfşa", "UYARI": "Uyarı", "HATA": "Hata", "LISTE": "Liste", "ICERIDEN": "İçeriden bilgi", "ONCE_SONRA": "Önce / sonra", "KOKEN": "Köken", "BASKASI": "Başkasının sonucu", "KANIT": "Kanıt", "SAAT": "Saat", "DENEDIM": "Denedim", "SOKUM": "Söküm", "YIGIN": "Yığın", "SON_TARIH": "Son tarih"}
-const KALIP_FORMULLER = { formuller: Object.keys(FORMUL_AD).map((kod) => ({ kod })) }
 const ORNEKLER = [
     "Bu bir kurt değil. Ama genlerinde hâlâ kurt saklıyor.",
     "Kurt mu husky mi? Gözlerine bakarsan hemen anlarsın.",
@@ -20,16 +19,9 @@ const ORNEKLER = [
     "Bütün köpekler aslında bir kurttan geliyor. Peki husky neden hâlâ ona benziyor?",
     "Karşına bunlardan biri çıksa, hangisinden kaçardın?",
 ]
-const NOT = {
-    yok: "Yapay zekâ henüz bağlı değil; kancalar hazır kalıplarla üretildi.",
-    hak: "Bugünkü yapay zekâ hakkın doldu; kancalar hazır kalıplarla üretildi. Yarın tekrar dene.",
-    kota: "Yapay zekâ bugün çok yoğun; kancalar hazır kalıplarla üretildi.",
-    hata: "Yapay zekâ şu an yanıt vermedi; kancalar hazır kalıplarla üretildi.",
-}
 
 interface Props {
     baslangic: string
-    sunucu: string
     style?: React.CSSProperties
 }
 type Uretilen = { formul: string; kanca: string; skor: number }
@@ -40,34 +32,17 @@ const kucukBaslik: React.CSSProperties = { margin: 0, fontFamily: YAZI, fontWeig
 const sayi: React.CSSProperties = { fontFamily: YAZI, fontWeight: 600, fontVariantNumeric: "tabular-nums" }
 const gizli: React.CSSProperties = { position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }
 
-async function sunucuyaSor(adres: string, konu: string, dil: string) {
-    const kes = new AbortController()
-    const zaman = setTimeout(() => kes.abort(), 25000)
-    try {
-        const r = await fetch(adres.replace(/\/+$/, "") + "/uret", {
-            method: "POST", headers: { "content-type": "application/json" },
-            body: JSON.stringify({ konu, dil }), signal: kes.signal,
-        })
-        const j = await r.json().catch(() => ({}))
-        if (r.ok && Array.isArray(j.kancalar) && j.kancalar.length) return { kancalar: j.kancalar, kalan: j.kalan }
-        return { hata: j.hata === "hak" ? "hak" : j.hata === "kota" ? "kota" : "hata" }
-    } catch {
-        return { hata: "hata" }
-    } finally {
-        clearTimeout(zaman)
-    }
-}
-
 /**
  * @framerSupportedLayoutWidth any-prefer-fixed
  * @framerSupportedLayoutHeight auto
  */
 export default function KancaArac(props: Props) {
-    const { baslangic, sunucu, style } = props
+    const { baslangic, style } = props
     const [metin, setMetin] = React.useState(baslangic || "")
     const [dil, setDil] = React.useState<"tr" | "en">("tr")
     const [konu, setKonu] = React.useState("")
-    const [uretiliyor, setUretiliyor] = React.useState(false)
+    const [tur, setTur] = React.useState(0)
+    const [sonKonu, setSonKonu] = React.useState("")
     const [liste, setListe] = React.useState<Uretilen[]>([])
     const [bilgi, setBilgi] = React.useState("")
     const puanKarti = React.useRef<HTMLElement>(null)
@@ -77,25 +52,15 @@ export default function KancaArac(props: Props) {
         []
     )
 
-    async function uret(e?: React.FormEvent) {
+    function uret(e?: React.FormEvent, yeniTur = 0) {
         e?.preventDefault()
         const k = konu.trim()
-        if (k.length < 2) { setBilgi("Önce konuyu yaz."); return }
-        setUretiliyor(true); setBilgi("Kancalar yazılıyor…"); setListe([])
-        let ham: { formul: string; kanca: string }[] = []
-        let not = NOT.yok
-        if (sunucu && sunucu.trim()) {
-            const c = await sunucuyaSor(sunucu.trim(), k, dil)
-            if ("kancalar" in c) {
-                ham = c.kancalar
-                not = typeof c.kalan === "number" ? `Yapay zekâyla yazıldı. Bugün ${c.kalan} hakkın kaldı.` : "Yapay zekâyla yazıldı."
-            } else not = NOT[c.hata]
-        }
-        if (!ham.length) ham = KancaKalip.uret(k, dil, KALIP_FORMULLER)
-        setListe(ham.map((x) => ({ ...x, skor: Math.round(KancaPuan.puanla(x.kanca, dil).skor) })).sort((a, b) => b.skor - a.skor))
-        setBilgi(not)
-        setUretiliyor(false)
+        if (k.length < 2) { setBilgi("Önce konuyu yaz."); setListe([]); return }
+        setListe(KancaMotor.uret(k, dil, KALIPLAR[dil], FORMULLER, { tur: yeniTur, puanla: KancaPuan.puanla }))
+        setTur(yeniTur); setSonKonu(k + "|" + dil)
+        setBilgi(yeniTur ? "Başka 5 kanca." : "")
     }
+    const ayniKonu = sonKonu === konu.trim() + "|" + dil && liste.length > 0
 
     function sec(t: string) {
         setMetin(t)
@@ -202,12 +167,18 @@ export default function KancaArac(props: Props) {
                     <input id="ka-konu" className="ka-odak ka-girdi" type="text" maxLength={120} value={konu} onChange={(e) => setKonu(e.target.value)}
                         placeholder="ör. Uykusuzluk beynine ne yapar?" autoComplete="off"
                         style={{ flex: "1 1 240px", minWidth: 0, border: "1px solid " + R.cizgi, borderRadius: 999, padding: "14px 20px", boxShadow: "inset 0 1px 2px rgba(20,32,43,.06)", fontFamily: YAZI, fontSize: 16, color: R.lacivert, background: "#F7F9FA" }} />
-                    <button type="submit" className="ka-odak ka-ana" disabled={uretiliyor}
-                        style={{ border: 0, borderRadius: 999, padding: "14px 26px", ...(uretiliyor ? { background: R.ray, boxShadow: "none" } : {}), color: uretiliyor ? R.soluk : R.turuncuUstu, fontFamily: YAZI, fontWeight: 600, fontSize: 15, cursor: uretiliyor ? "wait" : "pointer" }}>
-                        {uretiliyor ? "Yazılıyor…" : "Kanca üret"}
+                    <button type="submit" className="ka-odak ka-ana"
+                        style={{ border: 0, borderRadius: 999, padding: "14px 26px", color: R.turuncuUstu, fontFamily: YAZI, fontWeight: 600, fontSize: 15, cursor: "pointer" }}>
+                        Kanca üret
                     </button>
+                    {ayniKonu && (
+                        <button type="button" className="ka-odak ka-satir" onClick={() => uret(undefined, tur + 1)}
+                            style={{ border: "1px solid " + R.cizgi, borderRadius: 999, padding: "13px 22px", background: "#FFFFFF", color: R.lacivert, fontFamily: YAZI, fontWeight: 600, fontSize: 15, cursor: "pointer", boxShadow: "inset 0 1px 0 #fff, 0 1px 2px rgba(20,32,43,.06)" }}>
+                            Başka 5 kanca
+                        </button>
+                    )}
                 </form>
-                <p style={{ margin: 0, fontSize: 13, color: R.soluk }}>Dil, puanlama kartındaki TR / EN seçimine göre. Kişisel bilgi yazma: konu yalnızca kanca yazmak için yapay zekâya gönderilir, biz saklamayız.</p>
+                <p style={{ margin: 0, fontSize: 13, color: R.soluk }}>Kancalar kendi motorumuzla, senin tarayıcında yazılır ve puanlanır; konu hiçbir yere gönderilmez. Dil, puanlama kartındaki TR / EN seçimine göre. Motor bilgi uydurmaz: sayı ya da "en …" iddiası istiyorsan onu sen ekle.</p>
                 <div aria-live="polite" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                     {bilgi && <p style={{ margin: 0, fontSize: 14, color: R.soluk }}>{bilgi}</p>}
                     {liste.map((x) => (
@@ -228,5 +199,4 @@ export default function KancaArac(props: Props) {
 
 addPropertyControls(KancaArac, {
     baslangic: { type: ControlType.String, title: "Başlangıç", defaultValue: "", displayTextArea: true },
-    sunucu: { type: ControlType.String, title: "Sunucu adresi", defaultValue: "", placeholder: "https://kanca-uretici.<hesap>.workers.dev" },
 })
