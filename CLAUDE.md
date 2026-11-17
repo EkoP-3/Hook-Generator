@@ -99,13 +99,16 @@ prototip/kaynak.html          web sitesi prototipi (Aşama 4 için deneme; Claud
 prototip/puanla.js            arac/puanla.py'nin tarayıcı sürümü (Python ile birebir aynı sonuç vermeli)
 prototip/build.py             kaynak.html + puanla.js + istem.js + formuller.json → prototip/index.html
 prototip/istem.js             yapay zekâ istemi (prototip ve sunucu ortak)
-prototip/kalip.js             yapay zekâsız yedek kanca üretici (Framer'da Kalip.tsx)
+prototip/motor.js             kendi kanca motorumuz: konu çözümle → kalıpları doldur → puanla → en iyi 5 (Framer'da Motor.tsx)
+bilgi/kaliplar_tr.json        motorun Türkçe kalıp bankası (kural; yalnızca onaylı sürümle değişir)
+bilgi/kaliplar_en.json        aynısı İngilizce
+prototip/framer/derle.py      motor.js + kalıplar → prototip/framer/Motor.tsx
 prototip/framer/KancaArac.tsx Framer araç bileşeninin kopyası
 prototip/framer/KaydirFilm.tsx giriş: kaydırınca oynayan film (Framer kod bileşeni)
 prototip/framer/ArkaVideo.tsx  bölüm arka planı döngü videosu (Framer kod bileşeni)
 site/medya/                   site videoları, posterler, logo, kapak (Higgsfield, dönüştürülmüş)
-sunucu/worker.mjs             aracı sunucu (Cloudflare Worker → Gemini); derle.py → dagitim.mjs
-docs/kurulum-uretim.md        üretim kurulumu (hesaplar, anahtarlar, adımlar)
+sunucu/worker.mjs             ASKIDA: aracı sunucu (Cloudflare Worker → Gemini); derle.py → dagitim.mjs
+docs/kurulum-uretim.md        ASKIDA: Gemini üretim kurulumu
 ```
 
 `arac/puanla.py` veya sözlükler değişirse `prototip/puanla.js`'yi de güncelle, eşlik kontrolünü çalıştır, sonra `python3 prototip/build.py`.
@@ -113,7 +116,7 @@ docs/kurulum-uretim.md        üretim kurulumu (hesaplar, anahtarlar, adımlar)
 **Web sitesi (Framer, ANA SİTE):** proje `MhCH699DtueRx27j1bIh` ("Kanca Üretici v2"), ücretsiz **Meo** şablonundan remix edildi, çalışma alanı "EkoP's Workspace" (ücretsiz plan). Henüz yayınlanmadı; yalnızca kullanıcı "yayınla" deyince.
 - Editör: https://framer.com/projects/MhCH699DtueRx27j1bIh
 - Bölümler: Giriş + araç (`#arac`), Nasıl çalışır (`#nasil`), Puan neyi ölçer (`#puan`), SSS (`#sss`), alt bilgi, Türkçe 404. Terms ve Style Guide sayfaları taslak.
-- Araç: `KancaArac.tsx` + `Puanla.tsx` (= `prototip/puanla.js` + dışa aktarma satırı).
+- Araç: `KancaArac.tsx` + `Puanla.tsx` (= `prototip/puanla.js` + dışa aktarma satırı) + `Motor.tsx` (`python3 prototip/framer/derle.py` çıktısı). Kalıplar ya da motor değişince Motor.tsx yeniden derlenir, GitHub'dan Framer'a aynen çekilir.
 - Görseller Higgsfield'dan (`docs/gorseller.md`, `site/medya/`): giriş = kaydırınca oynayan film (`KaydirFilm`, masaüstü 16:9 / telefon 9:16), "Puan" bölümünde döngü videosu (`ArkaVideo`) + cam kartlar, 3 kart görseli, logo (menü/alt bilgi/favicon), paylaşım kapağı.
 - Premium stil: katmanlı lacivert gölgeler, turuncu geçişli butonlar (Button Primary/Secondary + hover/pressed varyantları), araçta 3B puan halkası. Kod bileşenleri GitHub'daki `prototip/framer/` kopyalarından aynen çekilir. Site görselleri kanca/kısa video konusuyla ilgili olur; hayvan görseli kullanılmaz (kullanıcı kararı, 2026-11-15).
 - Bilinen kalıntı: şablonun eklentiyle yönetilen "API Plugin" özel kodu (Meo arama motoru bilgisi) salt okunur; kullanıcı Site Ayarları → Custom Code'dan silmeli. Editör önizlemesindeki "Chat with Creator" balonu projede yok (şablon yaratıcısının Framer araç eklentisi; yayında kontrol edilecek).
@@ -164,7 +167,7 @@ CSV'yi elle düzenleme, `arac/veri.py` üzerinden yaz.
 - [ ] **Aşama 1 — Kullanım (4–6 hafta):** haftada 2–3 video, sonuçlar kullanıcıdan toplu. İlk `niş analizi`.
 - [ ] **Aşama 2 — İlk değerlendirme:** ~15–25 sonuçlu video + 1–2 niş analizi → ilk onaylı sürüm (v0.2). Puan ağırlıkları gerçek oranla karşılaştırılır, değişiklik öneri olarak sunulur.
 - [ ] **Aşama 3 — İngilizce:** İngilizce hayvan kanallarıyla niş analizi, İngilizce kuralları güçlendir.
-- [ ] **Aşama 4 — Ürün:** (iskelet hazır: Lovable sitesi, puanlama + tanıtım; üretim bağlı değil) hesapsız, veri toplamayan basit web sayfası. Kullanıcı konuyu yazar, onaylı sürümle kanca alır. Ücretsiz barındırma. Yapay zekâ maliyeti için çözüm bu aşamada seçilir (ücretli bir şey önermeden önce sor). README'de kaynak gösterimi (youtube-agent-skill, MIT, Jake Schincariol; Kallaway).
+- [ ] **Aşama 4 — Ürün:** (Framer sitesi: puanlama + kendi motorumuzla üretim, yayınlanmadı) hesapsız, veri toplamayan basit web sayfası. Kullanıcı konuyu yazar, onaylı sürümle kanca alır. Ücretsiz barındırma. Yapay zekâ maliyeti için çözüm bu aşamada seçilir (ücretli bir şey önermeden önce sor). README'de kaynak gösterimi (youtube-agent-skill, MIT, Jake Schincariol; Kallaway).
 - [ ] **Aşama 5 — Gelir:** freemium (aylık kanca hakkı). Ücretli planda niş analizi raporu ("senin nişinde ne tutuyor").
 
 Kapsam dışı: kendi kendine öğrenme (bilgi tabanı §14.4 bandit, §14.6 kullanıcı tercih modeli), kullanıcı verisi toplama, "YouTube'u bağla" / OAuth, §14.7 veri zehirlenmesi koruması, §14.10 KVKK işleri, hesaplar, TikTok/Instagram verisi.
@@ -187,4 +190,5 @@ Kapsam dışı: kendi kendine öğrenme (bilgi tabanı §14.4 bandit, §14.6 kul
 - 2026-11-13 — Ana site Framer ("Kanca Üretici v2", ücretsiz Meo şablonu). Lovable askıda. Higgsfield bağlanınca görsel/video üretimi için kullanılacak (henüz bağlı değil).
 - 2026-11-15 — Higgsfield bağlı (MCP). Site Higgsfield'da kurulmaz (her kayıt anında herkese açık). Yalnızca görsel üretimi. Claude Code'da deneme hakkı geçmiyor, üretim krediyle: kullanıcı onayı olmadan 10 krediyi geçme. Film (~70 kredi) şimdilik yok.
 - 2026-11-10 — Site şimdilik yalnızca puanlıyor ve örnek gösteriyor; "Konudan kanca üret" bölümü "Yakında" ve kapalı (0 TL). (2026-11-16 kararıyla değişti.)
-- 2026-11-16 — **Üretim modeli: karma (rakip sitelerdeki gibi).** Hesapsız; ziyaretçiye günde 3 yapay zekâ hakkı (Cloudflare Worker ücretsiz + Gemini ücretsiz katman). Hak/kota bitince ya da sunucu yoksa yapay zekâsız kalıp üretici. Konu saklanmaz; Gemini'ye gittiği SSS'de yazıyor. Kurulum: `docs/kurulum-uretim.md`.
+- 2026-11-17 — **Üretim kendi motorumuzla** (`prototip/motor.js` + `bilgi/kaliplar_*.json`): tamamen tarayıcıda, sınırsız, 0 TL, dışarıya bağlantı yok, konu hiçbir yere gitmez. Gemini/Cloudflare yolu askıda (kod duruyor, kullanılmıyor). Motor bilgi uydurmaz; sayı/üstünlük isteyen formüller yalnızca `kanca:` akışında.
+- 2026-11-16 — (Askıda, 2026-11-17 kararıyla) **Üretim modeli: karma (rakip sitelerdeki gibi).** Hesapsız; ziyaretçiye günde 3 yapay zekâ hakkı (Cloudflare Worker ücretsiz + Gemini ücretsiz katman). Hak/kota bitince ya da sunucu yoksa yapay zekâsız kalıp üretici. Konu saklanmaz; Gemini'ye gittiği SSS'de yazıyor. Kurulum: `docs/kurulum-uretim.md`.
